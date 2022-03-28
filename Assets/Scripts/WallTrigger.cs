@@ -4,6 +4,7 @@ using UnityEngine;
 public class WallTrigger : MonoBehaviour
 {
     [SerializeField] private ParticleSystem wallPunchPrefab;
+    [SerializeField] private ParticleSystem hitSmokePrefab;
     private RayfireRigid _rayfireRigid;
     private RayfireBomb _rayfireBomb;
     private const int GirlHairLayer = 8;
@@ -19,6 +20,7 @@ public class WallTrigger : MonoBehaviour
         if(other.gameObject.layer != GirlHairLayer) return;
         {
             Instantiate(wallPunchPrefab, other.transform.position, Quaternion.identity);
+            Instantiate(hitSmokePrefab, other.transform.position, Quaternion.identity);
             _rayfireRigid.Demolish();
             _rayfireBomb.Explode(0f);
         }

@@ -30,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 428824381727612316}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3526, y: 1.45, z: 86.77}
-  m_LocalScale: {x: 2.2331474, y: 2.878509, z: 0.43177637}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.8543171, y: 2.878509, z: 0.43177637}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb6e52f37bca2404fac00b69fd8d21f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialization: 1
+  initialization: 0
   simulationType: 0
   objectType: 0
   demolitionType: 2
@@ -119,9 +119,9 @@ MonoBehaviour:
     material: {fileID: 0}
     massBy: 0
     mass: 1
-    colliderType: 0
+    colliderType: 1
     planarCheck: 1
-    ignoreNear: 0
+    ignoreNear: 1
     useGravity: 1
     solverIterations: 6
     dampening: 0.7
@@ -338,3 +338,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallPunchPrefab: {fileID: 7618479101016219176, guid: 1176c917e33ab9a48bc910664caf1fc9, type: 3}
+  hitSmokePrefab: {fileID: 8948165021703159482, guid: b0beeb8c435f19a41a7d888b81abe0ff, type: 3}

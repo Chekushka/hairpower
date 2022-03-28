@@ -9,6 +9,7 @@ namespace Character
         private static readonly int IsMoving = Animator.StringToHash("IsMoving");
         private static readonly int Attack1 = Animator.StringToHash("Attack");
         private static readonly int SpinAttack1 = Animator.StringToHash("SpinAttack");
+        private static readonly int Run = Animator.StringToHash("Run");
 
         private void Start()
         {
@@ -19,5 +20,6 @@ namespace Character
         public void SetIdle() => _characterAnimator.SetBool(IsMoving, false);
         public void Attack() => _characterAnimator.SetTrigger(Attack1);
         public void SpinAttack() => _characterAnimator.SetTrigger(SpinAttack1);
+        public void SetRunning() => _characterAnimator.SetTrigger(Run);
     }
 }
