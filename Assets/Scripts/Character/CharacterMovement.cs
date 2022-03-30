@@ -25,10 +25,13 @@ namespace Character
 
         private const float TimeWhenHoldEnables = 0.2f;
         private const float TimeWhenRunEnables = 3f;
-        private const float HairCurlingDefault = 0.3f;
+        private const float HairCurlingDefault = 0.8f;
         private const float HairCurlingOnSpin = 0f;
+        private const float HairCurlingOnAttack = 0.15f;
+        private const float GravityMod = -9;
         private const int GirlLayer = 3;
         private const int WallLayer = 6;
+        private const float PlatformBorderDistance = 1.9f;
 
 
         private void Start()
@@ -95,10 +98,23 @@ namespace Character
             else
                 transform.position += Vector3.forward * forwardMovementSpeed * Time.deltaTime;
 
-            if (touch.deltaPosition.x > 0)
-                transform.position += Vector3.right * sideMovementSpeed * Time.deltaTime;
-            else if (touch.deltaPosition.x < 0)
-                transform.position += Vector3.left * sideMovementSpeed * Time.deltaTime;
+            if (transform.position.x < PlatformBorderDistance && transform.position.x > -PlatformBorderDistance)
+            {
+                if (touch.deltaPosition.x > 0)
+                    transform.position += Vector3.right * sideMovementSpeed * Time.deltaTime;
+                else if (touch.deltaPosition.x < 0)
+                    transform.position += Vector3.left * sideMovementSpeed * Time.deltaTime;
+            }
+            else
+            {
+                float lastAvailablePosX = 0;
+                if (transform.position.x >= PlatformBorderDistance)
+                    lastAvailablePosX = PlatformBorderDistance - 0.1f;
+                if(transform.position.x <= -PlatformBorderDistance)
+                    lastAvailablePosX = -PlatformBorderDistance + 0.1f;
+                
+                transform.position = new Vector3(lastAvailablePosX, transform.position.y, transform.position.z);
+            }
         }
 
         private void Attack(Touch touch)
@@ -110,16 +126,19 @@ namespace Character
 
             if (hit.transform.gameObject.layer == WallLayer)
             {
+                _hairTailAnimator.Gravity = Vector3.zero;
                 _hairTailAnimator.IKTarget = hairDirectionPoint;
+                _hairTailAnimator.Curling = HairCurlingOnAttack;
                 _animation.Attack();
                 hairDirectionPoint.position = new Vector3(hit.point.x, hit.point.y, hit.point.z + 0.5f);
             }
 
-            StartCoroutine(MoveHairDirectionPointBack(1.1f));
+            StartCoroutine(MoveHairDirectionPointBack(1.3f));
         }
 
         private void SpinAttack()
         {
+            _hairTailAnimator.Gravity = Vector3.zero;
             _isSideAttack = true;
             _hairTailAnimator.IKTarget = hairSpinDirectionPoint;
             _hairTailAnimator.Curling = HairCurlingOnSpin;
@@ -135,6 +154,7 @@ namespace Character
             SetHairDirectionPointToDefault();
             _hairTailAnimator.IKTarget = hairDirectionPoint;
             _hairTailAnimator.Curling = HairCurlingDefault;
+            _hairTailAnimator.Gravity = new Vector3(0, GravityMod, 0);
             _isSideAttack = false;
         }
         private void SetHold() => _wasHold = true;
