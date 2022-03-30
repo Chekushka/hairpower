@@ -137,9 +137,7 @@ MonoBehaviour:
   CollidersSameLayer: 1
   CollidersAddRigidbody: 1
   RigidbodyMass: 1
-  CollidersLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  CollidersLayer: 0
   UseSlitheryCurve: 0
   SlitheryCurve:
     serializedVersion: 2
@@ -493,8 +491,8 @@ MonoBehaviour:
   _gizmosEditorEndPreview: {fileID: 0}
   _gizmospeep: {fileID: 0}
   _editor_Title: Tail Animator 2
-  _editor_IsInspectorViewingColliders: 1
-  _editor_IsInspectorViewingIncludedColliders: 1
+  _editor_IsInspectorViewingColliders: 0
+  _editor_IsInspectorViewingIncludedColliders: 0
   _editor_animatorViewedCounter: 1
   TailSegments: []
   GhostParent:
@@ -508,6 +506,8 @@ MonoBehaviour:
     BoneDimensionsScaled: {x: 0, y: 0, z: 0}
     BoneLengthScaled: 0
     InitialLocalPosition: {x: 0, y: 0, z: 0}
+    InitialLocalPositionInRoot: {x: 0, y: 0, z: 0}
+    InitialLocalRotationInRoot: {x: 0, y: 0, z: 0, w: 1}
     LocalOffset: {x: 0, y: 0, z: 0}
     InitialLocalRotation: {x: 0, y: 0, z: 0, w: 1}
     ColliderRadius: 1
@@ -526,6 +526,8 @@ MonoBehaviour:
     Slithery: 1
     Curling: 0.5
     Slippery: 1
+    LastKeyframeLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+    LastKeyframeLocalPosition: {x: 0, y: 0, z: 0}
   GhostChild:
     ProceduralPosition: {x: 0, y: 0, z: 0}
     ProceduralPositionWeightBlended: {x: 0, y: 0, z: 0}
@@ -537,6 +539,8 @@ MonoBehaviour:
     BoneDimensionsScaled: {x: 0, y: 0, z: 0}
     BoneLengthScaled: 0
     InitialLocalPosition: {x: 0, y: 0, z: 0}
+    InitialLocalPositionInRoot: {x: 0, y: 0, z: 0}
+    InitialLocalRotationInRoot: {x: 0, y: 0, z: 0, w: 1}
     LocalOffset: {x: 0, y: 0, z: 0}
     InitialLocalRotation: {x: 0, y: 0, z: 0, w: 1}
     ColliderRadius: 1
@@ -555,6 +559,8 @@ MonoBehaviour:
     Slithery: 1
     Curling: 0.5
     Slippery: 1
+    LastKeyframeLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+    LastKeyframeLocalPosition: {x: 0, y: 0, z: 0}
   UseMaxDistance: 0
   DistanceFrom: {fileID: 0}
   _distanceFrom_Auto: {fileID: 0}
@@ -612,6 +618,7 @@ MonoBehaviour:
   LimitAxisRange: {x: 0, y: 0}
   LimitSmoothing: 0.5
   MotionInfluence: 1
+  MotionInfluenceInY: 1
   IncludeParent: 1
   UnifyBendiness: 0
   ReactionSpeed: 0.9
@@ -628,3 +635,4 @@ MonoBehaviour:
   Axis2D: 0
   Tangle: 0
   AnimateRoll: 0
+  OverrideKeyframeAnimation: 0

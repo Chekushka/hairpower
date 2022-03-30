@@ -21,11 +21,12 @@ namespace Character
         private bool _wasHold;
         private bool _isMoving;
         private bool _isRunning;
+        private bool _isSideAttack;
 
         private const float TimeWhenHoldEnables = 0.2f;
         private const float TimeWhenRunEnables = 3f;
         private const float HairCurlingDefault = 0.3f;
-        private const float HairCurlingOnSpin = 0.1f;
+        private const float HairCurlingOnSpin = 0f;
         private const int GirlLayer = 3;
         private const int WallLayer = 6;
 
@@ -78,6 +79,8 @@ namespace Character
                     break;
             }
         }
+        
+        public bool IsSideAttack() => _isSideAttack;
 
         private void Move(Touch touch)
         {
@@ -117,6 +120,7 @@ namespace Character
 
         private void SpinAttack()
         {
+            _isSideAttack = true;
             _hairTailAnimator.IKTarget = hairSpinDirectionPoint;
             _hairTailAnimator.Curling = HairCurlingOnSpin;
             _animation.SpinAttack();
@@ -131,8 +135,8 @@ namespace Character
             SetHairDirectionPointToDefault();
             _hairTailAnimator.IKTarget = hairDirectionPoint;
             _hairTailAnimator.Curling = HairCurlingDefault;
+            _isSideAttack = false;
         }
-
         private void SetHold() => _wasHold = true;
 
         private void SetRun()

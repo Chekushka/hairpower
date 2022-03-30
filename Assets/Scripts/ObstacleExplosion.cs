@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Character;
 using UnityEngine;
 
 public class ObstacleExplosion : MonoBehaviour
@@ -11,6 +12,7 @@ public class ObstacleExplosion : MonoBehaviour
     [SerializeField] private ParticleSystem hitSmokePrefab;
     
     private const int GirlHairLayer = 8;
+    private const float ExplodeImpulsePower = 10f;
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer != GirlHairLayer) return;
@@ -19,22 +21,29 @@ public class ObstacleExplosion : MonoBehaviour
             triggerCollider.enabled = false;
             Instantiate(punchPrefab, other.transform.position, Quaternion.identity);
             Instantiate(hitSmokePrefab, other.transform.position, Quaternion.identity);
-            Explode();
+            Explode(other);
         }
     }
 
-    private void Explode()
+    private void Explode(Component other)
     {
+        var isSideAttack = other.GetComponentInParent<CharacterMovement>().IsSideAttack();
         foreach (var part in obstaclesParts)
         {
             part.gameObject.SetActive(true);
-            var randomValueForForward = Random.value;
-            var randomValueForDirection = Random.value;
-            var explosionSideDirection = randomValueForDirection >= 0.5f ? Vector3.right : Vector3.left;
+            Vector3 direction;
+            if (isSideAttack)
+                direction = Vector3.left;
+            else
+            {
+                var randomValueForForward = Random.value;
+                var randomValueForDirection = Random.value;
+                var explosionSideDirection = randomValueForDirection >= 0.5f ? Vector3.right : Vector3.left;
+                direction = 
+                    randomValueForForward >= 0.5f ? Vector3.forward : Vector3.forward + explosionSideDirection;
+            }
             
-            var direction = 
-                randomValueForForward >= 0.5f ? Vector3.forward : Vector3.forward + explosionSideDirection;
-            part.AddForce(direction * 10f, ForceMode.Impulse);
+            part.AddForce(direction * ExplodeImpulsePower, ForceMode.Impulse);
         }
     }
 }
