@@ -4184,15 +4184,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3510849679958219683, guid: a0ab4c720fc74794fa01ca4369540692, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.09095827
+      value: 0.09095825
       objectReference: {fileID: 0}
     - target: {fileID: 3510849679958219683, guid: a0ab4c720fc74794fa01ca4369540692, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000017135058
+      value: 0.000000017135056
       objectReference: {fileID: 0}
     - target: {fileID: 3510849679958219683, guid: a0ab4c720fc74794fa01ca4369540692, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000015650629
+      value: -0.0000000015650623
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0ab4c720fc74794fa01ca4369540692, type: 3}
@@ -9300,13 +9300,21 @@ PrefabInstance:
       propertyPath: hairAnimator
       value: 
       objectReference: {fileID: 2001101747}
+    - target: {fileID: 1714832217534232786, guid: ca9ae125950cb284f9a97a610844d58e, type: 3}
+      propertyPath: timeToPerformSpinAttack
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1949257100104205920, guid: ca9ae125950cb284f9a97a610844d58e, type: 3}
       propertyPath: m_Name
       value: Girl
       objectReference: {fileID: 0}
+    - target: {fileID: 1949257101023216653, guid: ca9ae125950cb284f9a97a610844d58e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3669317929428014829, guid: ca9ae125950cb284f9a97a610844d58e, type: 3}
       propertyPath: UseIK
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3669317929428014829, guid: ca9ae125950cb284f9a97a610844d58e, type: 3}
       propertyPath: Curling
@@ -9342,7 +9350,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3669317929428014829, guid: ca9ae125950cb284f9a97a610844d58e, type: 3}
       propertyPath: _Editor_Category
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3669317929428014829, guid: ca9ae125950cb284f9a97a610844d58e, type: 3}
       propertyPath: IKReactionQuality
@@ -9358,7 +9366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3669317929428014829, guid: ca9ae125950cb284f9a97a610844d58e, type: 3}
       propertyPath: _Editor_FeaturesCategory
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3669317929428014829, guid: ca9ae125950cb284f9a97a610844d58e, type: 3}
       propertyPath: IncludedColliders.Array.data[0]
@@ -9396,6 +9404,14 @@ PrefabInstance:
       propertyPath: IncludedColliders.Array.data[8]
       value: 
       objectReference: {fileID: 561097204}
+    - target: {fileID: 3669317929428014829, guid: ca9ae125950cb284f9a97a610844d58e, type: 3}
+      propertyPath: _editor_IsInspectorViewingColliders
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669317929428014829, guid: ca9ae125950cb284f9a97a610844d58e, type: 3}
+      propertyPath: _editor_IsInspectorViewingIncludedColliders
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca9ae125950cb284f9a97a610844d58e, type: 3}
 --- !u!1001 &2039530137083549964

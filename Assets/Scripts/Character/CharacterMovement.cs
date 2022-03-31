@@ -26,7 +26,11 @@ namespace Character
         private bool _isSideAttack;
 
         private const float TimeWhenRunEnables = 3f;
+        private const float HairSlitheryDefault = 1f;
+        private const float HairSlitheryOnSpin = 0.1f;
         private const float HairCurlingDefault = 0.8f;
+        private const float HairAngleLimitOnSpin = 20;
+        private const float HairAngleLimitDefault = 181;
         private const float HairCurlingOnSpin = 0f;
         private const float HairCurlingOnAttack = 0.15f;
         private const float GravityMod = -9;
@@ -46,7 +50,7 @@ namespace Character
             InputControls.OnAttack += Attack;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if(_isMoving)
                 MoveForward();
@@ -112,7 +116,6 @@ namespace Character
             if (hit.transform.gameObject.layer == WallLayer)
             {
                 _hairTailAnimator.Gravity = Vector3.zero;
-                _hairTailAnimator.IKTarget = hairDirectionPoint;
                 _hairTailAnimator.Curling = HairCurlingOnAttack;
                 _animation.HairSetAttack();
                 _animation.SetAttack();
@@ -126,11 +129,14 @@ namespace Character
         {
             _animation.SetIdle();
             _isMoving = false;
+            _isRunning = false;
             _hairTailAnimator.Gravity = Vector3.zero;
             _isSideAttack = true;
-            _hairTailAnimator.IKTarget = hairSpinDirectionPoint;
             _hairTailAnimator.Curling = HairCurlingOnSpin;
-            _animation.SpinAttack();
+            _hairTailAnimator.Slithery = HairSlitheryOnSpin;
+            _hairTailAnimator.AngleLimit = HairAngleLimitOnSpin;
+            _animation.SetSpinAttack();
+            StartCoroutine(DelayedHairSpin());
 
             StartCoroutine(MoveHairDirectionPointBack(2.2f));
         }
@@ -139,8 +145,9 @@ namespace Character
         {
             yield return new WaitForSeconds(delay);
             SetHairDirectionPointToDefault();
-            _hairTailAnimator.IKTarget = hairDirectionPoint;
             _hairTailAnimator.Curling = HairCurlingDefault;
+            _hairTailAnimator.Slithery = HairSlitheryDefault;
+            _hairTailAnimator.AngleLimit = HairAngleLimitDefault;
             _hairTailAnimator.Gravity = new Vector3(0, GravityMod, 0);
             _isSideAttack = false;
         }
@@ -149,6 +156,12 @@ namespace Character
         {
             yield return new WaitForSeconds(timeToPerformSpinAttack);
             SpinAttack();
+        }
+
+        private IEnumerator DelayedHairSpin()
+        {
+            yield return new WaitForSeconds(1f);
+            _animation.HairSetSpinAttack();
         }
 
         private void SetMoving()
