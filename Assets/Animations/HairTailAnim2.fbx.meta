@@ -1,14 +1,15 @@
 fileFormatVersion: 2
-guid: 7711596f248c33246a1f043e90bb36e1
+guid: 9b6faf01ce84e5743a6f5796bdd9aff5
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
-  externalObjects:
+  internalIDToNameTable:
   - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: HairGainer
-    second: {fileID: 2100000, guid: bb00b32d0a5848b46ad9e99ac4cbcbe7, type: 2}
+      74: 2264077025236624520
+    second: Armature.001|Armature.001Action
+  - first:
+      74: -5784005261616917065
+    second: Armature.001|Armature.001Action.001
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

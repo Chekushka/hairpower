@@ -33,7 +33,6 @@ namespace Character
         private const float HairAngleLimitDefault = 181;
         private const float HairCurlingOnSpin = 0f;
         private const float HairCurlingOnAttack = 0.15f;
-        private const float GravityMod = -9;
         private const int WallLayer = 6;
         private const float PlatformBorderDistance = 1.9f;
         
@@ -148,7 +147,6 @@ namespace Character
             _hairTailAnimator.Curling = HairCurlingDefault;
             _hairTailAnimator.Slithery = HairSlitheryDefault;
             _hairTailAnimator.AngleLimit = HairAngleLimitDefault;
-            _hairTailAnimator.Gravity = new Vector3(0, GravityMod, 0);
             _isSideAttack = false;
         }
 
