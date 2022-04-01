@@ -27,7 +27,7 @@ public class ObstacleExplosion : MonoBehaviour
 
     private void Explode(Component other)
     {
-        var isSideAttack = other.GetComponentInParent<CharacterMovement>().IsSideAttack();
+        var isSideAttack = other.GetComponentInParent<CharacterMovement>().isSideAttack;
         foreach (var part in obstaclesParts)
         {
             part.gameObject.SetActive(true);

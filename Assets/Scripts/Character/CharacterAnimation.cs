@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Character
@@ -12,6 +11,7 @@ namespace Character
         private static readonly int Attack = Animator.StringToHash("Attack");
         private static readonly int SpinAttack = Animator.StringToHash("SpinAttack");
         private static readonly int Run = Animator.StringToHash("Run");
+        private static readonly int Jump = Animator.StringToHash("Jump");
 
         private void Start()
         {
@@ -23,7 +23,10 @@ namespace Character
         public void SetAttack() => _characterAnimator.SetTrigger(Attack);
         public void SetSpinAttack() => _characterAnimator.SetTrigger(SpinAttack);
         public void SetRunning() => _characterAnimator.SetTrigger(Run);
+        public void SetJumping() => _characterAnimator.SetTrigger(Jump);
         public void HairSetAttack() => hairAnimator.SetTrigger(Attack);
         public void HairSetSpinAttack() => hairAnimator.SetTrigger(SpinAttack);
+
+        public void DisableCharacterAnimator() => _characterAnimator.enabled = false;
     }
 }

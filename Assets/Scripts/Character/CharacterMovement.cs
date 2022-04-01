@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using FIMSpace.FTail;
 using UnityEngine;
 
 namespace Character
@@ -11,42 +8,38 @@ namespace Character
         [SerializeField] private float forwardMovementSpeed = 1.5f;
         [SerializeField] private float runSpeed = 2;
         [SerializeField] private float sideMovementSpeed = 3f;
-        [SerializeField] private float hairDirectionPointDistance = 3f;
-        [SerializeField] private float timeToPerformSpinAttack = 1f;
-        [SerializeField] private Transform hairDirectionPoint;
-        [SerializeField] private Transform hairSpinDirectionPoint;
-        [SerializeField] private LayerMask attackObjectsMask;
+
+        [Header("Ragdoll")]
+        [SerializeField] private Transform hips;
         
+        public bool isSideAttack;
+
         private CharacterAnimation _animation;
-        private TailAnimator2 _hairTailAnimator;
-        private Camera _camera;
+        private CharacterAttack _attack;
+        private CharacterJumping _jumping;
+        private Collider _mainCollider;
+        private Rigidbody _mainRigidbody;
+
         private bool _isWaitingForRun = true;
         private bool _isMoving;
         private bool _isRunning;
-        private bool _isSideAttack;
 
         private const float TimeWhenRunEnables = 3f;
-        private const float HairSlitheryDefault = 1f;
-        private const float HairSlitheryOnSpin = 0.1f;
-        private const float HairCurlingDefault = 0.8f;
-        private const float HairAngleLimitOnSpin = 20;
-        private const float HairAngleLimitDefault = 181;
-        private const float HairCurlingOnSpin = 0f;
-        private const float HairCurlingOnAttack = 0.15f;
-        private const int WallLayer = 6;
         private const float PlatformBorderDistance = 1.9f;
         
         private void Start()
         {
             _animation = GetComponent<CharacterAnimation>();
-            _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
-            _camera = Camera.main;
-            SetHairDirectionPointToDefault();
+            _attack = GetComponent<CharacterAttack>();
+            _jumping = GetComponent<CharacterJumping>();
+            _mainRigidbody = GetComponent<Rigidbody>();
+            _mainCollider = GetComponent<Collider>();
+            
+            EnableRagDoll(false);
 
             InputControls.OnHoldForwardStarted += SetMoving;
             InputControls.OnHoldForwardEnded += RunEndMovingAction;
             InputControls.OnHoldSide += SideMove;
-            InputControls.OnAttack += Attack;
         }
 
         private void FixedUpdate()
@@ -55,12 +48,30 @@ namespace Character
                 MoveForward();
         }
 
-        public bool IsSideAttack() => _isSideAttack;
+        public void DisableAllMovement()
+        {
+            _animation.SetIdle();
+            _isMoving = false;
+            _isRunning = false;
+        }
+
+        public void EnableRagDoll(bool value)
+        {
+            if(value)
+                _animation.DisableCharacterAnimator();
+            
+            _mainRigidbody.isKinematic = !value;
+            _mainCollider.enabled = !value;
+            
+            var rigidbodies = hips.GetComponentsInChildren<Rigidbody>();
+            foreach (var rb in rigidbodies)
+                rb.isKinematic = !value;
+        }
 
         private void RunEndMovingAction()
         {
-            if (_isRunning)
-                StartCoroutine(DelayedSpinAttack());
+            if (_isRunning && !_jumping.isReadyToJump)
+                _attack.StartDelayedSpinAttack();
             else
             {
                 _animation.SetIdle();
@@ -104,64 +115,7 @@ namespace Character
                 transform.position = new Vector3(lastAvailablePosX, transform.position.y, transform.position.z);
             }
         }
-
-        private void Attack(Vector2 touchPos)
-        {
-            var ray = _camera.ScreenPointToRay(touchPos);
-
-            if (!Physics.Raycast(ray, out var hit, Mathf.Infinity, attackObjectsMask)) return;
-            if (hit.collider == null) return;
-
-            if (hit.transform.gameObject.layer == WallLayer)
-            {
-                _hairTailAnimator.Gravity = Vector3.zero;
-                _hairTailAnimator.Curling = HairCurlingOnAttack;
-                _animation.HairSetAttack();
-                _animation.SetAttack();
-                hairDirectionPoint.position = new Vector3(hit.point.x, hit.point.y, hit.point.z + 0.5f);
-            }
-
-            StartCoroutine(MoveHairDirectionPointBack(1.3f));
-        }
-
-        private void SpinAttack()
-        {
-            _animation.SetIdle();
-            _isMoving = false;
-            _isRunning = false;
-            _hairTailAnimator.Gravity = Vector3.zero;
-            _isSideAttack = true;
-            _hairTailAnimator.Curling = HairCurlingOnSpin;
-            _hairTailAnimator.Slithery = HairSlitheryOnSpin;
-            _hairTailAnimator.AngleLimit = HairAngleLimitOnSpin;
-            _animation.SetSpinAttack();
-            StartCoroutine(DelayedHairSpin());
-
-            StartCoroutine(MoveHairDirectionPointBack(2.2f));
-        }
         
-        private IEnumerator MoveHairDirectionPointBack(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            SetHairDirectionPointToDefault();
-            _hairTailAnimator.Curling = HairCurlingDefault;
-            _hairTailAnimator.Slithery = HairSlitheryDefault;
-            _hairTailAnimator.AngleLimit = HairAngleLimitDefault;
-            _isSideAttack = false;
-        }
-
-        private IEnumerator DelayedSpinAttack()
-        {
-            yield return new WaitForSeconds(timeToPerformSpinAttack);
-            SpinAttack();
-        }
-
-        private IEnumerator DelayedHairSpin()
-        {
-            yield return new WaitForSeconds(1f);
-            _animation.HairSetSpinAttack();
-        }
-
         private void SetMoving()
         {
             _isMoving = true;
@@ -173,8 +127,5 @@ namespace Character
             _isRunning = true;
             _animation.SetRunning();
         }
-
-        private void SetHairDirectionPointToDefault() =>
-            hairDirectionPoint.position = transform.position + Vector3.back * hairDirectionPointDistance;
     }
 }
