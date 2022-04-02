@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2524472971877482178
+--- !u!1 &6136577304685786961
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2524472971877482179}
-  - component: {fileID: 2524472971877482180}
-  - component: {fileID: 2524472971877482181}
+  - component: {fileID: 6136577304685786963}
+  - component: {fileID: 6136577304685786962}
+  - component: {fileID: 6136577304685786964}
   m_Layer: 0
-  m_Name: JumpTrigger
+  m_Name: JumpFailTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2524472971877482179
+--- !u!4 &6136577304685786963
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2524472971877482178}
+  m_GameObject: {fileID: 6136577304685786961}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,28 +32,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2524472971877482180
+--- !u!65 &6136577304685786962
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2524472971877482178}
+  m_GameObject: {fileID: 6136577304685786961}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.2094088, y: 1.379927, z: 1.9441528}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2524472971877482181
+  m_Size: {x: 3.8550391, y: 3.4864845, z: 1.1534824}
+  m_Center: {x: -0.04472661, y: 0.2617643, z: 0.32864285}
+--- !u!114 &6136577304685786964
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2524472971877482178}
+  m_GameObject: {fileID: 6136577304685786961}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6c2cfcc5b60a72448abf31aaa57ca3e, type: 3}
+  m_Script: {fileID: 11500000, guid: 40517606a23cb8546941bd4587cc04b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

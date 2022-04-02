@@ -73,10 +73,8 @@ namespace Character
             if (_isRunning && !_jumping.isReadyToJump)
                 _attack.StartDelayedSpinAttack();
             else
-            {
-                _animation.SetIdle();
-                _isMoving = false;
-            }
+                DisableAllMovement();
+            
             CancelInvoke(nameof(SetRun));
             _isWaitingForRun = true;
         }
