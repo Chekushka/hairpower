@@ -9,7 +9,8 @@ namespace Character
         [SerializeField] private List<GameObject> hairSegments;
         [SerializeField] private List<Collider> hairSegmentsBones;
         [SerializeField] private int activeSegmentsCount;
-        [SerializeField] private ParticleSystem bubbles;
+        [SerializeField] private Transform hairEndTransform;
+        [SerializeField] private Transform lastHairBone;
         [SerializeField] private MMF_Player hairGrowingFeedback;
 
         private MMF_Scale _feedbackGrowScale;
@@ -35,6 +36,16 @@ namespace Character
             hairGrowingFeedback.PlayFeedbacks();
             
             hairSegmentsBones[activeSegmentsCount].enabled = true;
+
+            if (activeSegmentsCount < hairSegments.Count - 1)
+                hairEndTransform.parent = hairSegmentsBones[activeSegmentsCount + 1].transform;
+            else
+                hairEndTransform.parent = lastHairBone;
+            
+            hairEndTransform.localPosition = Vector3.zero;
+            hairEndTransform.localScale = Vector3.one * 0.05f;
+            hairEndTransform.localRotation = Quaternion.Euler(70, 200, 180);
+            
             activeSegmentsCount++;
         }
 
