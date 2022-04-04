@@ -51,6 +51,13 @@ namespace Character
                 MoveForward();
         }
 
+        public void SetFinish()
+        {
+            DisableAllMovement();
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            _animating.SetFinishDance();
+        }
+
         public void DisableAllMovement()
         {
             _animating.SetIdle();

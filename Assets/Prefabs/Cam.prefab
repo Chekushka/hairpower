@@ -30,7 +30,7 @@ Transform:
   m_Children:
   - {fileID: 1710394873}
   m_Father: {fileID: 3510849678885567287}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &26970939
 MonoBehaviour:
@@ -48,7 +48,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 2
+  m_Priority: 1
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
@@ -190,8 +190,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3510849679683951249}
-  - {fileID: 3510849679958219683}
   - {fileID: 26970938}
+  - {fileID: 3510849679958219683}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -402,8 +402,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3510849679683951243}
-  m_LocalRotation: {x: 0.0907439, y: -0.025191093, z: 0.0022961493, w: 0.99555296}
-  m_LocalPosition: {x: 0.09, y: 2.6299999, z: -7.2230196}
+  m_LocalRotation: {x: 0.24228102, y: -0.010909478, z: 0.0027245106, w: 0.970141}
+  m_LocalPosition: {x: 0.71, y: 4.93, z: -26.840002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3510849680851000704}
@@ -634,7 +634,7 @@ GameObject:
   - component: {fileID: 3510849679958219683}
   - component: {fileID: 3510849679958219682}
   m_Layer: 0
-  m_Name: Other
+  m_Name: FinishCamera(vCM)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -647,13 +647,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3510849679958219681}
-  m_LocalRotation: {x: 0.09095825, y: -0.000000017135058, z: 0.0000000015650624, w: 0.99585474}
+  m_LocalRotation: {x: 0.09095826, y: -0.000000016763806, z: 0.0000000013969839, w: 0.99585474}
   m_LocalPosition: {x: 0, y: 2.99, z: -7.21302}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3510849680883040104}
   m_Father: {fileID: 3510849678885567287}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3510849679958219682
 MonoBehaviour:
@@ -671,7 +671,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 1
+  m_Priority: 0
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}

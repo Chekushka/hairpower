@@ -13,6 +13,7 @@ namespace Character
         private static readonly int Run = Animator.StringToHash("Run");
         private static readonly int Jump = Animator.StringToHash("Jump");
         private static readonly int ParkourJump = Animator.StringToHash("ParkourJump");
+        private static readonly int Finish = Animator.StringToHash("Finish");
 
         private void Start()
         {
@@ -26,6 +27,7 @@ namespace Character
         public void SetRunning() => _characterAnimator.SetTrigger(Run);
         public void SetJumping() => _characterAnimator.SetTrigger(Jump);
         public void SetParkourJump() => _characterAnimator.SetTrigger(ParkourJump);
+        public void SetFinishDance() => _characterAnimator.SetTrigger(Finish);
         public void HairSetAttack() => hairAnimator.SetTrigger(Attack);
         public void HairSetSpinAttack() => hairAnimator.SetTrigger(SpinAttack);
 
