@@ -4,26 +4,27 @@ using UnityEngine;
 
 namespace Character
 {
-    [RequireComponent(typeof(CharacterMovement), typeof(CharacterAnimation))]
+    [RequireComponent(typeof(CharacterMovement), typeof(CharacterAnimating))]
     public class CharacterAttack : MonoBehaviour
     {
         [SerializeField] private float timeToPerformSpinAttack = 1f;
+        [SerializeField] private ParticleSystem spinTrail;
         [SerializeField] private LayerMask attackObjectsMask;
         
         private CharacterMovement _movement;
-        private CharacterAnimation _animation;
+        private CharacterAnimating _animating;
         private TailAnimator2 _hairTailAnimator;
         private Camera _camera;
 
         #region Consts
 
         private const float HairSlitheryDefault = 1f;
-        private const float HairSlitheryOnSpin = 0.1f;
+        private const float HairSlitheryOnSpin = 0.4f;
         private const float HairCurlingDefault = 0.8f;
-        private const float HairAngleLimitOnSpin = 20;
+        private const float HairAngleLimitOnSpin = 40;
         private const float HairAngleLimitDefault = 181;
-        private const float HairCurlingOnSpin = 0f;
-        private const float HairCurlingOnAttack = 0.15f;
+        private const float HairCurlingOnSpin = 0.3f;
+        private const float HairCurlingOnAttack = 0.3f;
         private const int WallLayer = 6;
 
         #endregion
@@ -31,15 +32,15 @@ namespace Character
         private void Start()
         {
             _movement = GetComponent<CharacterMovement>();
-            _animation = GetComponent<CharacterAnimation>();
+            _animating = GetComponent<CharacterAnimating>();
             _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
             _camera = Camera.main;
-            InputControls.OnTap += Tap;
+            InputControls.OnTap += Attack;
         }
         
         public void StartDelayedSpinAttack() => StartCoroutine(DelayedSpinAttack());
         
-        private void Tap(Vector2 touchPos)
+        private void Attack(Vector2 touchPos)
         {
             var ray = _camera.ScreenPointToRay(touchPos);
 
@@ -48,10 +49,11 @@ namespace Character
 
             if (hit.transform.gameObject.layer == WallLayer)
             {
+                _movement.isSideAttack = false;
                 _hairTailAnimator.Gravity = Vector3.zero;
                 _hairTailAnimator.Curling = HairCurlingOnAttack;
-                _animation.HairSetAttack();
-                _animation.SetAttack();
+                _animating.HairSetAttack();
+                _animating.SetAttack();
             }
 
             StartCoroutine(MoveHairDirectionPointBack(1.3f));
@@ -64,7 +66,8 @@ namespace Character
             _hairTailAnimator.Curling = HairCurlingOnSpin;
             _hairTailAnimator.Slithery = HairSlitheryOnSpin;
             _hairTailAnimator.AngleLimit = HairAngleLimitOnSpin;
-            _animation.SetSpinAttack();
+            _animating.SetSpinAttack();
+            spinTrail.Play();
             StartCoroutine(DelayedHairSpin());
 
             StartCoroutine(MoveHairDirectionPointBack(2.2f));
@@ -88,7 +91,7 @@ namespace Character
         private IEnumerator DelayedHairSpin()
         {
             yield return new WaitForSeconds(1f);
-            _animation.HairSetSpinAttack();
+            _animating.HairSetSpinAttack();
         }
     }
 }

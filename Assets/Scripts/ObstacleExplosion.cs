@@ -10,12 +10,13 @@ public class ObstacleExplosion : MonoBehaviour
     [SerializeField] private List<Rigidbody> obstaclesParts;
     [SerializeField] private ParticleSystem punchPrefab;
     [SerializeField] private ParticleSystem hitSmokePrefab;
-    
+
     private const int GirlHairLayer = 8;
+    private const int BanditLayer = 10;
     private const float ExplodeImpulsePower = 10f;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer != GirlHairLayer) return;
+        if(other.gameObject.layer != GirlHairLayer && other.gameObject.layer != BanditLayer) return;
         {
             obstacleObject.SetActive(false);
             triggerCollider.enabled = false;
@@ -27,7 +28,9 @@ public class ObstacleExplosion : MonoBehaviour
 
     private void Explode(Component other)
     {
-        var isSideAttack = other.GetComponentInParent<CharacterMovement>().isSideAttack;
+        var isSideAttack = 
+            other.gameObject.layer == GirlHairLayer && other.GetComponentInParent<CharacterMovement>().isSideAttack;
+            
         foreach (var part in obstaclesParts)
         {
             part.gameObject.SetActive(true);

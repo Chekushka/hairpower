@@ -1,8 +1,9 @@
+using FIMSpace.FTail;
 using UnityEngine;
 
 namespace Character
 {
-    [RequireComponent(typeof(CharacterAnimation))]
+    [RequireComponent(typeof(CharacterAnimating))]
     public class CharacterMovement : MonoBehaviour
     {
         [SerializeField] private float forwardMovementSpeed = 1.5f;
@@ -14,11 +15,12 @@ namespace Character
         
         public bool isSideAttack;
 
-        private CharacterAnimation _animation;
+        private CharacterAnimating _animating;
         private CharacterAttack _attack;
         private CharacterJumping _jumping;
         private Collider _mainCollider;
         private Rigidbody _mainRigidbody;
+        private TailAnimator2 _hairTailAnimator;
 
         private bool _isWaitingForRun = true;
         private bool _isMoving;
@@ -29,11 +31,12 @@ namespace Character
         
         private void Start()
         {
-            _animation = GetComponent<CharacterAnimation>();
+            _animating = GetComponent<CharacterAnimating>();
             _attack = GetComponent<CharacterAttack>();
             _jumping = GetComponent<CharacterJumping>();
             _mainRigidbody = GetComponent<Rigidbody>();
             _mainCollider = GetComponent<Collider>();
+            _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
             
             EnableRagDoll(false);
 
@@ -44,22 +47,25 @@ namespace Character
 
         private void FixedUpdate()
         {
-            if(_isMoving)
+            if(_isMoving && !_jumping.IsJumping())
                 MoveForward();
         }
 
         public void DisableAllMovement()
         {
-            _animation.SetIdle();
+            _animating.SetIdle();
             _isMoving = false;
             _isRunning = false;
         }
 
         public void EnableRagDoll(bool value)
         {
-            if(value)
-                _animation.DisableCharacterAnimator();
-            
+            if (value)
+            {
+                _hairTailAnimator.Gravity = Vector3.down * 9;
+                _animating.DisableCharacterAnimator();
+            }
+
             _mainRigidbody.isKinematic = !value;
             _mainCollider.enabled = !value;
             
@@ -117,13 +123,13 @@ namespace Character
         private void SetMoving()
         {
             _isMoving = true;
-            _animation.SetMoving();
+            _animating.SetMoving();
         }
 
         private void SetRun()
         {
             _isRunning = true;
-            _animation.SetRunning();
+            _animating.SetRunning();
         }
     }
 }
