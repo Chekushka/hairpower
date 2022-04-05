@@ -10,7 +10,9 @@ namespace Character
         [SerializeField] private float timeToPerformSpinAttack = 1f;
         [SerializeField] private ParticleSystem spinTrail;
         [SerializeField] private LayerMask attackObjectsMask;
-        
+        [SerializeField] private AudioSource attackSound;
+        [SerializeField] private AudioSource spinAttackSound;
+
         private CharacterMovement _movement;
         private CharacterAnimating _animating;
         private TailAnimator2 _hairTailAnimator;
@@ -52,6 +54,7 @@ namespace Character
                 _movement.isSideAttack = false;
                 _hairTailAnimator.Gravity = Vector3.zero;
                 _hairTailAnimator.Curling = HairCurlingOnAttack;
+                attackSound.Play();
                 _animating.HairSetAttack();
                 _animating.SetAttack();
             }
@@ -67,6 +70,7 @@ namespace Character
             _hairTailAnimator.Slithery = HairSlitheryOnSpin;
             _hairTailAnimator.AngleLimit = HairAngleLimitOnSpin;
             _animating.SetSpinAttack();
+            spinAttackSound.Play();
             spinTrail.Play();
             StartCoroutine(DelayedHairSpin());
 

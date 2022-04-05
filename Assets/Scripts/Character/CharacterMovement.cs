@@ -12,7 +12,10 @@ namespace Character
 
         [Header("Ragdoll")]
         [SerializeField] private Transform hips;
-        
+
+        [Header("Debug")] 
+        [SerializeField] private bool isAbleToSpin;
+
         public bool isSideAttack;
 
         private CharacterAnimating _animating;
@@ -25,6 +28,7 @@ namespace Character
         private bool _isWaitingForRun = true;
         private bool _isMoving;
         private bool _isRunning;
+        private bool _isFinish;
 
         private const float TimeWhenRunEnables = 3f;
         private const float PlatformBorderDistance = 1.9f;
@@ -56,6 +60,7 @@ namespace Character
             DisableAllMovement();
             transform.rotation = Quaternion.Euler(0, 180, 0);
             _animating.SetFinishDance();
+            _isFinish = true;
         }
 
         public void DisableAllMovement()
@@ -83,7 +88,7 @@ namespace Character
 
         private void RunEndMovingAction()
         {
-            if (_isRunning && !_jumping.isReadyToJump)
+            if (_isRunning && !_jumping.isReadyToJump && isAbleToSpin && !_isFinish)
                 _attack.StartDelayedSpinAttack();
             else
                 DisableAllMovement();
