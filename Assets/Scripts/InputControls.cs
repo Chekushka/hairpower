@@ -11,9 +11,9 @@ public class InputControls : MonoBehaviour
     public static event HoldForwardEnded OnHoldForwardEnded;
     public delegate void HoldSide(Vector2 deltaPos);
     public static event HoldSide OnHoldSide;
-    public delegate void Tap(Vector2 position);
+    public delegate void Tap();
     public static event Tap OnTap;
-    
+
     private InputPrefs _inputPrefs;
     private void Awake() => _inputPrefs = new InputPrefs();
 
@@ -22,8 +22,7 @@ public class InputControls : MonoBehaviour
         _inputPrefs.Touch.ForwardMoveStarted.performed += x => OnHoldForwardStarted?.Invoke();
         _inputPrefs.Touch.ForwardMoveEnded.performed += x => OnHoldForwardEnded?.Invoke();
         _inputPrefs.Touch.SideMove.started += x => OnHoldSide?.Invoke(x.ReadValue<Vector2>());
-        _inputPrefs.Touch.Attack.performed += x => 
-            OnTap?.Invoke(_inputPrefs.Touch.TouchPosition.ReadValue<Vector2>());
+        _inputPrefs.Touch.Attack.performed += x => OnTap?.Invoke();
     }
 
 

@@ -11,12 +11,12 @@ namespace Bandit
         [SerializeField] private float distanceWhenPlayerBecomeVisible;
         [SerializeField] private Transform hips;
         [SerializeField] private ParticleSystem onHitParticles;
+        [SerializeField] private AudioSource hitSound;
 
         private CharacterMovement _girlMovement;
         private Transform _girlTransform;
         private BanditAnimating _animating;
         private Collider _mainCollider;
-        private Rigidbody _mainRigidbody;
         private bool _isPlayerVisible;
         private bool _isMoving;
 
@@ -26,7 +26,6 @@ namespace Bandit
         private void Start()
         {
             _animating = GetComponent<BanditAnimating>();
-            _mainRigidbody = GetComponent<Rigidbody>();
             _mainCollider = GetComponent<Collider>();
             _girlMovement = FindObjectOfType<CharacterMovement>();
             _girlTransform = _girlMovement.transform;
@@ -59,11 +58,13 @@ namespace Bandit
             switch (other.gameObject.layer)
             {
                 case GirlHairLayer:
+                    hitSound.Play();
                     _isMoving = false;
                     Instantiate(onHitParticles, other.transform.position, Quaternion.identity);
                     EnableRagDoll(true);
                     break;
                 case GirlLayer:
+                    hitSound.Play();
                     _isMoving = false;
                     _animating.SetAttack();
                     _girlMovement.DisableAllMovement();

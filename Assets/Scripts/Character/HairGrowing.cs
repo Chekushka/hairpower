@@ -29,24 +29,26 @@ namespace Character
 
         public void GrowHair()
         {
-            if (activeSegmentsCount >= hairSegments.Count) return;
-            _feedbackGrowScale.AnimateScaleTarget = hairSegmentsBones[activeSegmentsCount].transform;
-            _feedbackSetActive.TargetGameObject = hairSegments[activeSegmentsCount];
-            _feedbackParticles.InstantiateParticlesPosition = hairSegments[activeSegmentsCount].transform;
-            hairGrowingFeedback.PlayFeedbacks();
-            
-            hairSegmentsBones[activeSegmentsCount].enabled = true;
+            if (activeSegmentsCount < hairSegments.Count)
+            {
+                _feedbackGrowScale.AnimateScaleTarget = hairSegmentsBones[activeSegmentsCount].transform;
+                _feedbackSetActive.TargetGameObject = hairSegments[activeSegmentsCount];
+                _feedbackParticles.InstantiateParticlesPosition = hairSegments[activeSegmentsCount].transform;
 
-            if (activeSegmentsCount < hairSegments.Count - 1)
-                hairEndTransform.parent = hairSegmentsBones[activeSegmentsCount + 1].transform;
-            else
-                hairEndTransform.parent = lastHairBone;
+                hairSegmentsBones[activeSegmentsCount].enabled = true;
+
+                hairEndTransform.parent = 
+                    activeSegmentsCount < hairSegments.Count - 1 ? hairSegmentsBones[activeSegmentsCount + 1].transform 
+                        : lastHairBone;
+
+                hairEndTransform.localPosition = Vector3.zero;
+                hairEndTransform.localScale = Vector3.one * 0.05f;
+                hairEndTransform.localRotation = Quaternion.Euler(70, 200, 180);
+
+                activeSegmentsCount++;
+            }
             
-            hairEndTransform.localPosition = Vector3.zero;
-            hairEndTransform.localScale = Vector3.one * 0.05f;
-            hairEndTransform.localRotation = Quaternion.Euler(70, 200, 180);
-            
-            activeSegmentsCount++;
+            hairGrowingFeedback.PlayFeedbacks();
         }
 
         private void UpdateActiveSegmentsCount()

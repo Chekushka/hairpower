@@ -1,5 +1,6 @@
 using System.Collections;
 using FIMSpace.FTail;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 namespace Character
@@ -7,17 +8,16 @@ namespace Character
     [RequireComponent(typeof(CharacterMovement), typeof(CharacterAnimating))]
     public class CharacterAttack : MonoBehaviour
     {
-        [SerializeField] private float timeToPerformSpinAttack = 1f;
-        [SerializeField] private ParticleSystem spinTrail;
-        [SerializeField] private LayerMask attackObjectsMask;
+        [SerializeField] private float attackDelay;
+        [SerializeField] private float spinAttackDelay;
         [SerializeField] private AudioSource attackSound;
-        [SerializeField] private AudioSource spinAttackSound;
+        [SerializeField] private MMF_Player spinFeedback;
 
         private CharacterMovement _movement;
         private CharacterAnimating _animating;
         private TailAnimator2 _hairTailAnimator;
-        private Camera _camera;
-
+        private ClosestObstacleLocating _closestObstacleLocating;
+        
         #region Consts
 
         private const float HairSlitheryDefault = 1f;
@@ -27,7 +27,6 @@ namespace Character
         private const float HairAngleLimitDefault = 181;
         private const float HairCurlingOnSpin = 0.3f;
         private const float HairCurlingOnAttack = 0.3f;
-        private const int WallLayer = 6;
 
         #endregion
 
@@ -36,28 +35,24 @@ namespace Character
             _movement = GetComponent<CharacterMovement>();
             _animating = GetComponent<CharacterAnimating>();
             _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
-            _camera = Camera.main;
-            InputControls.OnTap += Attack;
+            _closestObstacleLocating = FindObjectOfType<ClosestObstacleLocating>();
+            // InputControls.OnTap += Attack;
         }
-        
+
+        public void StartDelayedAttack() => StartCoroutine(DelayedAttack());
         public void StartDelayedSpinAttack() => StartCoroutine(DelayedSpinAttack());
-        
-        private void Attack(Vector2 touchPos)
+
+        private void Attack()
         {
-            var ray = _camera.ScreenPointToRay(touchPos);
-
-            if (!Physics.Raycast(ray, out var hit, Mathf.Infinity, attackObjectsMask)) return;
-            if (hit.collider == null) return;
-
-            if (hit.transform.gameObject.layer == WallLayer)
-            {
-                _movement.isSideAttack = false;
-                _hairTailAnimator.Gravity = Vector3.zero;
-                _hairTailAnimator.Curling = HairCurlingOnAttack;
-                attackSound.Play();
-                _animating.HairSetAttack();
-                _animating.SetAttack();
-            }
+            _movement.DisableAllMovement();
+            var closestObstacle = _closestObstacleLocating.FindClosestObstacleToObject(transform);
+            transform.LookAt(closestObstacle);
+            _movement.isSideAttack = false;
+            _hairTailAnimator.Gravity = Vector3.zero;
+            _hairTailAnimator.Curling = HairCurlingOnAttack;
+            attackSound.Play();
+            _animating.HairSetAttack();
+            _animating.SetAttack();
 
             StartCoroutine(MoveHairDirectionPointBack(1.3f));
         }
@@ -70,13 +65,12 @@ namespace Character
             _hairTailAnimator.Slithery = HairSlitheryOnSpin;
             _hairTailAnimator.AngleLimit = HairAngleLimitOnSpin;
             _animating.SetSpinAttack();
-            spinAttackSound.Play();
-            spinTrail.Play();
+            spinFeedback.PlayFeedbacks();
             StartCoroutine(DelayedHairSpin());
 
             StartCoroutine(MoveHairDirectionPointBack(2.2f));
         }
-        
+
         private IEnumerator MoveHairDirectionPointBack(float delay)
         {
             yield return new WaitForSeconds(delay);
@@ -85,10 +79,16 @@ namespace Character
             _hairTailAnimator.AngleLimit = HairAngleLimitDefault;
             _movement.isSideAttack = false;
         }
-        
+
+        private IEnumerator DelayedAttack()
+        {
+            yield return new WaitForSeconds(attackDelay);
+            Attack();
+        }
+
         private IEnumerator DelayedSpinAttack()
         {
-            yield return new WaitForSeconds(timeToPerformSpinAttack);
+            yield return new WaitForSeconds(spinAttackDelay);
             SpinAttack();
         }
 

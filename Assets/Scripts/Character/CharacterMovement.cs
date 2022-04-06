@@ -9,6 +9,7 @@ namespace Character
         [SerializeField] private float forwardMovementSpeed = 1.5f;
         [SerializeField] private float runSpeed = 2;
         [SerializeField] private float sideMovementSpeed = 3f;
+        [SerializeField] private float timeWhenRunEnables = 3f;
 
         [Header("Ragdoll")]
         [SerializeField] private Transform hips;
@@ -17,6 +18,7 @@ namespace Character
         [SerializeField] private bool isAbleToSpin;
 
         public bool isSideAttack;
+        public bool isMoving;
 
         private CharacterAnimating _animating;
         private CharacterAttack _attack;
@@ -26,11 +28,9 @@ namespace Character
         private TailAnimator2 _hairTailAnimator;
 
         private bool _isWaitingForRun = true;
-        private bool _isMoving;
         private bool _isRunning;
         private bool _isFinish;
-
-        private const float TimeWhenRunEnables = 3f;
+        
         private const float PlatformBorderDistance = 1.9f;
         
         private void Start()
@@ -45,13 +45,13 @@ namespace Character
             EnableRagDoll(false);
 
             InputControls.OnHoldForwardStarted += SetMoving;
-            InputControls.OnHoldForwardEnded += RunEndMovingAction;
+            InputControls.OnHoldForwardEnded += EndMoving;
             InputControls.OnHoldSide += SideMove;
         }
 
         private void FixedUpdate()
         {
-            if(_isMoving && !_jumping.IsJumping())
+            if(isMoving && !_jumping.IsJumping())
                 MoveForward();
         }
 
@@ -66,7 +66,7 @@ namespace Character
         public void DisableAllMovement()
         {
             _animating.SetIdle();
-            _isMoving = false;
+            isMoving = false;
             _isRunning = false;
         }
 
@@ -86,12 +86,23 @@ namespace Character
                 rb.isKinematic = !value;
         }
 
-        private void RunEndMovingAction()
+        private void EndMoving()
         {
-            if (_isRunning && !_jumping.isReadyToJump && isAbleToSpin && !_isFinish)
-                _attack.StartDelayedSpinAttack();
+            if (!_jumping.isReadyToJump && !_isFinish)
+            {
+                if (_isRunning)
+                {
+                    if(isAbleToSpin) 
+                        _attack.StartDelayedSpinAttack();
+                    else
+                        DisableAllMovement();
+                }
+                else
+                    _attack.StartDelayedAttack();
+            }
             else
                 DisableAllMovement();
+            
             
             CancelInvoke(nameof(SetRun));
             _isWaitingForRun = true;
@@ -101,7 +112,7 @@ namespace Character
         {
             if (_isWaitingForRun)
             {
-                Invoke(nameof(SetRun), TimeWhenRunEnables);
+                Invoke(nameof(SetRun), timeWhenRunEnables);
                 _isWaitingForRun = false;
             }
 
@@ -134,7 +145,8 @@ namespace Character
         
         private void SetMoving()
         {
-            _isMoving = true;
+            transform.rotation = Quaternion.identity;
+            isMoving = true;
             _animating.SetMoving();
         }
 

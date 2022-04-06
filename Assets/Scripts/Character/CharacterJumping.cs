@@ -9,6 +9,8 @@ namespace Character
         [SerializeField] private float jumpTime;
         [SerializeField] private float parkourJumpTime;
         [SerializeField] private float jumpingSpeed;
+        [SerializeField] private AudioSource jumpStartSound;
+        [SerializeField] private AudioSource jumpEndSound;
 
         public bool isReadyToJump;
         private bool _isJumping;
@@ -36,11 +38,12 @@ namespace Character
             StartCoroutine(EndJump(parkourJumpTime));
         }
 
-        private void StartJump(Vector2 position)
+        private void StartJump()
         {
             if (isReadyToJump)
             {
                 _animating.SetJumping();
+                jumpStartSound.Play();
                 StartCoroutine(SetJumping(0.2f));
                 StartCoroutine(EndJump(jumpTime));
             }
@@ -57,6 +60,7 @@ namespace Character
             yield return new WaitForSeconds(animationTime);
             isReadyToJump = false;
             _isJumping = false;
+            jumpEndSound.Play();
         }
     }
 }

@@ -15,6 +15,8 @@ namespace Character
         private static readonly int ParkourJump = Animator.StringToHash("ParkourJump");
         private static readonly int Finish = Animator.StringToHash("Finish");
 
+        private const string UpperBodyLayerName = "UpperBody";
+
         private void Start()
         {
             _characterAnimator = GetComponent<Animator>();
@@ -30,6 +32,11 @@ namespace Character
         public void SetFinishDance() => _characterAnimator.SetTrigger(Finish);
         public void HairSetAttack() => hairAnimator.SetTrigger(Attack);
         public void HairSetSpinAttack() => hairAnimator.SetTrigger(SpinAttack);
+
+        public void EnableAttackLayer() => 
+            hairAnimator.SetLayerWeight(1, 0);
+        public void DisableAttackLayer() => 
+            hairAnimator.SetLayerWeight(1, 90);
 
         public void DisableCharacterAnimator() => _characterAnimator.enabled = false;
     }
