@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: b4d3f19507909c948b9751528bf4788c
+guid: d19538f84a90a224bba03cf83af1fd2b
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: T-Pose@Run And Swing
+    second: T-Pose@Mutant Jump Attack
   - first:
       74: -203655887218126122
     second: mixamo.com
@@ -38,7 +38,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: T-Pose@Run And Swing
+      name: T-Pose@Mutant Jump Attack
       takeName: Take 001
       internalID: 0
       firstFrame: 0
@@ -50,7 +50,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 0
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -71,7 +71,7 @@ ModelImporter:
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 62
+      lastFrame: 51
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

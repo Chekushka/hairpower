@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FIMSpace.FTail;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Character
         [SerializeField] private float runSpeed = 2;
         [SerializeField] private float sideMovementSpeed = 3f;
         [SerializeField] private float timeWhenRunEnables = 3f;
+        [SerializeField] private GameObject failWindow;
 
         [Header("Ragdoll")]
         [SerializeField] private Transform hips;
@@ -42,7 +44,7 @@ namespace Character
             _mainCollider = GetComponent<Collider>();
             _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
             
-            EnableRagDoll(false);
+            EnableRagDoll(false, false);
 
             InputControls.OnHoldForwardStarted += SetMoving;
             InputControls.OnHoldForwardEnded += EndMoving;
@@ -70,25 +72,31 @@ namespace Character
             _isRunning = false;
         }
 
-        public void EnableRagDoll(bool value)
+        public void EnableRagDoll(bool value, bool addForce)
         {
             if (value)
             {
-                _hairTailAnimator.Gravity = Vector3.down * 9;
+                failWindow.SetActive(true);
                 _animating.DisableCharacterAnimator();
+                _hairTailAnimator.Gravity = Vector3.down * 9;
             }
 
             _mainRigidbody.isKinematic = !value;
             _mainCollider.enabled = !value;
+            GetComponent<HairGrowing>().SetAbleValueForHairColliders(false);
             
             var rigidbodies = hips.GetComponentsInChildren<Rigidbody>();
             foreach (var rb in rigidbodies)
+            {
                 rb.isKinematic = !value;
+                if(addForce)
+                    rb.AddForce(Vector3.back * 5, ForceMode.Impulse);
+            }
         }
 
         private void EndMoving()
         {
-            if (!_jumping.isReadyToJump && !_isFinish)
+            if (!_jumping.isReadyToJump && !_isFinish && !_jumping.IsJumping())
             {
                 if (_isRunning)
                 {

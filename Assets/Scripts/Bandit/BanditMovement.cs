@@ -9,6 +9,7 @@ namespace Bandit
     {
         [SerializeField] private float movementSpeed;
         [SerializeField] private float distanceWhenPlayerBecomeVisible;
+        [SerializeField] private float girlHitPower = 15;
         [SerializeField] private Transform hips;
         [SerializeField] private ParticleSystem onHitParticles;
         [SerializeField] private AudioSource hitSound;
@@ -68,7 +69,7 @@ namespace Bandit
                     _isMoving = false;
                     _animating.SetAttack();
                     _girlMovement.DisableAllMovement();
-                    _girlMovement.EnableRagDoll(true);
+                    _girlMovement.EnableRagDoll(true, true);
                     break;
             }
         }
@@ -93,7 +94,7 @@ namespace Bandit
                 if(_girlMovement.isSideAttack)  
                     rb.AddForce((Vector3.forward + Vector3.left) * 10, ForceMode.Impulse);
                 else
-                    rb.AddForce((Vector3.forward) * 15, ForceMode.Impulse);
+                    rb.AddForce((Vector3.forward) * girlHitPower, ForceMode.Impulse);
             }
         }
         

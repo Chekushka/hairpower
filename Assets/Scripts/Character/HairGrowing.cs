@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MoreMountains.Feedbacks;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Character
 {
@@ -16,6 +17,7 @@ namespace Character
         private MMF_Scale _feedbackGrowScale;
         private MMF_SetActive _feedbackSetActive;
         private MMF_ParticlesInstantiation _feedbackParticles;
+        private Collider _hairEndCollider;
 
         private void Start()
         {
@@ -25,6 +27,7 @@ namespace Character
             _feedbackGrowScale = hairGrowingFeedback.GetFeedbackOfType<MMF_Scale>();
             _feedbackSetActive = hairGrowingFeedback.GetFeedbackOfType<MMF_SetActive>();
             _feedbackParticles = hairGrowingFeedback.GetFeedbackOfType<MMF_ParticlesInstantiation>();
+            _hairEndCollider = hairEndTransform.GetComponent<Collider>();
         }
 
         public void GrowHair()
@@ -49,6 +52,13 @@ namespace Character
             }
             
             hairGrowingFeedback.PlayFeedbacks();
+        }
+
+        public void SetAbleValueForHairColliders(bool value)
+        {
+            for(var i = 0; i < activeSegmentsCount; i++)
+                hairSegmentsBones[i].enabled = value;
+            _hairEndCollider.enabled = false;
         }
 
         private void UpdateActiveSegmentsCount()

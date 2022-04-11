@@ -15,9 +15,9 @@ namespace Character
 
         private CharacterMovement _movement;
         private CharacterAnimating _animating;
+        private HairGrowing _growing;
         private TailAnimator2 _hairTailAnimator;
-        private ClosestObstacleLocating _closestObstacleLocating;
-        
+
         #region Consts
 
         private const float HairSlitheryDefault = 1f;
@@ -34,9 +34,8 @@ namespace Character
         {
             _movement = GetComponent<CharacterMovement>();
             _animating = GetComponent<CharacterAnimating>();
+            _growing = GetComponent<HairGrowing>();
             _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
-            _closestObstacleLocating = FindObjectOfType<ClosestObstacleLocating>();
-            // InputControls.OnTap += Attack;
         }
 
         public void StartDelayedAttack() => StartCoroutine(DelayedAttack());
@@ -44,36 +43,32 @@ namespace Character
 
         private void Attack()
         {
-            _movement.DisableAllMovement();
-            var closestObstacle = _closestObstacleLocating.FindClosestObstacleToObject(transform);
-            transform.LookAt(closestObstacle);
             _movement.isSideAttack = false;
+            _growing.SetAbleValueForHairColliders(false);
             _hairTailAnimator.Gravity = Vector3.zero;
             _hairTailAnimator.Curling = HairCurlingOnAttack;
             attackSound.Play();
-            _animating.HairSetAttack();
             _animating.SetAttack();
 
-            StartCoroutine(MoveHairDirectionPointBack(1.3f));
+            StartCoroutine(DelayedHairAttack());
+            StartCoroutine(EndAttack(1.5f));
         }
 
         private void SpinAttack()
         {
-            _movement.DisableAllMovement();
             _movement.isSideAttack = true;
             _hairTailAnimator.Curling = HairCurlingOnSpin;
             _hairTailAnimator.Slithery = HairSlitheryOnSpin;
             _hairTailAnimator.AngleLimit = HairAngleLimitOnSpin;
-            _animating.SetSpinAttack();
-            spinFeedback.PlayFeedbacks();
             StartCoroutine(DelayedHairSpin());
 
-            StartCoroutine(MoveHairDirectionPointBack(2.2f));
+            StartCoroutine(EndAttack(1.5f));
         }
 
-        private IEnumerator MoveHairDirectionPointBack(float delay)
+        private IEnumerator EndAttack(float delay)
         {
             yield return new WaitForSeconds(delay);
+            _movement.DisableAllMovement();
             _hairTailAnimator.Curling = HairCurlingDefault;
             _hairTailAnimator.Slithery = HairSlitheryDefault;
             _hairTailAnimator.AngleLimit = HairAngleLimitDefault;
@@ -94,8 +89,17 @@ namespace Character
 
         private IEnumerator DelayedHairSpin()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.2f);
+            _animating.SetSpinAttack();
+            spinFeedback.PlayFeedbacks();
             _animating.HairSetSpinAttack();
+        }
+
+        private IEnumerator DelayedHairAttack()
+        {
+            yield return new WaitForSeconds(0.4f);
+            _growing.SetAbleValueForHairColliders(true);
+            _animating.HairSetAttack();
         }
     }
 }
