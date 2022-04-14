@@ -4,20 +4,18 @@ using UnityEngine;
 public class CameraLookPointPositioning : MonoBehaviour
 {
     [SerializeField] private Transform hips;
-    [SerializeField] private bool followHips;
-    
+
     private CharacterMovement _characterMovement;
     private Transform _followTransform;
 
     private void Start()
     {
         _characterMovement = FindObjectOfType<CharacterMovement>();
-        _followTransform = followHips ? hips : _characterMovement.transform;
-        transform.position = _followTransform.position;
+        _followTransform = _characterMovement.transform;
     }
 
-    public void EnableCameraFollowHips() => followHips = true;
-    public void DisableCameraFollowHips() => followHips = false;
+    public void EnableCameraFollowHips() => _followTransform = hips;
+    public void DisableCameraFollowHips() => _followTransform = _characterMovement.transform;
 
     private void Update() => transform.position = 
         new Vector3(transform.position.x, transform.position.y, _followTransform.position.z);
