@@ -16,6 +16,7 @@ namespace Enemy
         [SerializeField] private Transform hips;
         [SerializeField] private ParticleSystem onHitParticles;
         [SerializeField] private AudioSource hitSound;
+        [SerializeField] private AudioSource attackSound;
         [SerializeField] private AudioSource deathSound;
 
         private CharacterMovement _girlMovement;
@@ -120,7 +121,7 @@ namespace Enemy
         private IEnumerator DelayedGirlFall(float delay)
         {
             yield return new WaitForSeconds(delay);
-            hitSound.Play();
+            attackSound.Play();
             _girlMovement.EnableRagDoll(true, true);
         }
     }

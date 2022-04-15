@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using FIMSpace.FTail;
 using UnityEngine;
 
@@ -23,12 +22,14 @@ namespace Character
         public bool isSideAttack;
         public bool isMoving;
 
+        private InputControls _inputControls;
         private CharacterAnimating _animating;
         private CharacterAttack _attack;
         private CharacterJumping _jumping;
         private Collider _mainCollider;
         private Rigidbody _mainRigidbody;
         private TailAnimator2 _hairTailAnimator;
+        private Camera _camera;
 
         private bool _isWaitingForRun = true;
         private bool _isRunning;
@@ -44,18 +45,22 @@ namespace Character
             _mainRigidbody = GetComponent<Rigidbody>();
             _mainCollider = GetComponent<Collider>();
             _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
-            
+            _inputControls = FindObjectOfType<InputControls>();
+            _camera = Camera.main;
+
             EnableRagDoll(false, false);
 
             InputControls.OnHoldForwardStarted += SetMoving;
             InputControls.OnHoldForwardEnded += EndMoving;
-            InputControls.OnHoldSide += SideMove;
         }
 
         private void FixedUpdate()
         {
-            if(isMoving && !_jumping.IsJumping())
+            if (isMoving && !_jumping.IsJumping())
+            {
                 MoveForward();
+                SideMove(_inputControls.GetFingerPos());
+            }
         }
 
         public void SetFinish()
@@ -133,14 +138,13 @@ namespace Character
                 transform.position += Vector3.forward * forwardMovementSpeed * Time.deltaTime;
         }
 
-        private void SideMove(Vector2 touchPositionDelta)
+        private void SideMove(Vector2 touchPosition)
         {
             if (transform.position.x < PlatformBorderDistance && transform.position.x > -PlatformBorderDistance)
             {
-                if (touchPositionDelta.x > 0)
-                    transform.position += Vector3.right * sideMovementSpeed * Time.deltaTime;
-                else if (touchPositionDelta.x < 0)
-                    transform.position += Vector3.left * sideMovementSpeed * Time.deltaTime;
+                var convertedPos = new Vector3(touchPosition.x, touchPosition.y, 10f);
+                var fingerPos = _camera.ScreenToWorldPoint(convertedPos) * sideMovementSpeed;
+                transform.position = new Vector3(fingerPos.x, transform.position.y, transform.position.z);
             }
             else
             {

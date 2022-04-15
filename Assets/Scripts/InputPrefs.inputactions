@@ -15,15 +15,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SideMove",
-                    "type": "PassThrough",
-                    "id": "987d806b-7295-4463-8951-17be3e46477b",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "ForwardMoveStarted",
                     "type": "PassThrough",
                     "id": "4af80590-9a4b-4e0c-a6c0-5f444af6c1bf",
@@ -52,17 +43,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "af05e349-4034-48f1-9a76-e936b635fde7",
-                    "path": "<Touchscreen>/primaryTouch/delta",
-                    "interactions": "Hold",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SideMove",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "7038a283-f23e-464d-855b-c864cfff9ff9",
@@ -99,7 +79,7 @@
                 {
                     "name": "",
                     "id": "e047d96c-f73e-4cda-bace-f29118df0010",
-                    "path": "<Touchscreen>/position",
+                    "path": "<Touchscreen>/primaryTouch/position",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

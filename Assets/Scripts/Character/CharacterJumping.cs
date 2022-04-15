@@ -39,6 +39,7 @@ namespace Character
         public void StartParkourJump()
         {
             _animating.SetParkourJump();
+            jumpStartSound.Play();
             _movement.DisableRunning();
             StartCoroutine(SetJumping(0.3f));
             StartCoroutine(EndJump(parkourJumpTime));

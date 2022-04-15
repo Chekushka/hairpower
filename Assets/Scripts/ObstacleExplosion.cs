@@ -11,6 +11,7 @@ public class ObstacleExplosion : MonoBehaviour
     [SerializeField] private List<Rigidbody> obstaclesParts;
     [SerializeField] private ParticleSystem punchPrefab;
     [SerializeField] private ParticleSystem hitSmokePrefab;
+    [SerializeField] private ParticleSystem explosion;
     [SerializeField] private AudioSource obstacleHitSound;
     [SerializeField] private AudioSource wallDestroySound;
     [SerializeField] private AudioSource obstacleDestroySound;
@@ -41,7 +42,7 @@ public class ObstacleExplosion : MonoBehaviour
                 wallDestroySound.Play();
             else
                 obstacleDestroySound.Play();
-            
+
             Explode(other);
         }
     }
@@ -67,6 +68,8 @@ public class ObstacleExplosion : MonoBehaviour
             }
 
             part.AddForce(direction * ExplodeImpulsePower, ForceMode.Impulse);
+            if (explosion != null)
+                Instantiate(explosion, transform.position, Quaternion.identity);
         }
     }
 }
