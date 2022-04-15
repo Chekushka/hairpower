@@ -58,7 +58,7 @@ namespace Character
         {
             for(var i = 0; i < activeSegmentsCount; i++)
                 hairSegmentsBones[i].enabled = value;
-            _hairEndCollider.enabled = false;
+            _hairEndCollider.enabled = value;
         }
 
         private void UpdateActiveSegmentsCount()

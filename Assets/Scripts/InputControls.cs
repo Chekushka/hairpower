@@ -25,6 +25,7 @@ public class InputControls : MonoBehaviour
         _inputPrefs.Touch.Attack.performed += x => OnTap?.Invoke();
     }
 
+    public Vector2 GetFingerPos() => _inputPrefs.Touch.TouchPosition.ReadValue<Vector2>();
 
     private void OnEnable() =>_inputPrefs.Enable();
     private void OnDisable()=>_inputPrefs.Disable();

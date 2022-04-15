@@ -15,13 +15,15 @@ namespace Character
         public bool isReadyToJump;
         private bool _isJumping;
         private bool _isOnHorizontalBar;
-        
+
+        private CharacterMovement _movement;
         private CharacterAnimating _animating;
         private CameraLookPointPositioning _cameraLookPoint;
 
         private void Start()
         {
             _animating = GetComponent<CharacterAnimating>();
+            _movement = GetComponent<CharacterMovement>();
             _cameraLookPoint = FindObjectOfType<CameraLookPointPositioning>();
             InputControls.OnTap += StartJump;
         }
@@ -37,6 +39,7 @@ namespace Character
         public void StartParkourJump()
         {
             _animating.SetParkourJump();
+            _movement.DisableRunning();
             StartCoroutine(SetJumping(0.3f));
             StartCoroutine(EndJump(parkourJumpTime));
         }

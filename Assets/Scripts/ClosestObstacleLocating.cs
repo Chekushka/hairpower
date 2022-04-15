@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Bandit;
+using Enemy;
 using UnityEngine;
 
 public class ClosestObstacleLocating : MonoBehaviour
@@ -32,7 +32,7 @@ public class ClosestObstacleLocating : MonoBehaviour
    private void DetectObstacles()
    {
       var motionlessObstacles = obstaclesParent.GetComponentsInChildren<ObstacleExplosion>();
-      var bandits = obstaclesParent.GetComponentsInChildren<BanditMovement>();
+      var bandits = obstaclesParent.GetComponentsInChildren<EnemyMovement>();
 
       if (motionlessObstacles.Length > 0)
          foreach (var obstacle in motionlessObstacles)

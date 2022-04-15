@@ -11,6 +11,7 @@ namespace Character
         [SerializeField] private float runSpeed = 2;
         [SerializeField] private float sideMovementSpeed = 3f;
         [SerializeField] private float timeWhenRunEnables = 3f;
+        [SerializeField] private GameObject hairEnd;
         [SerializeField] private GameObject failWindow;
 
         [Header("Ragdoll")]
@@ -72,6 +73,8 @@ namespace Character
             _isRunning = false;
         }
 
+        public void DisableRunning() => _isRunning = false;
+
         public void EnableRagDoll(bool value, bool addForce)
         {
             if (value)
@@ -83,14 +86,14 @@ namespace Character
 
             _mainRigidbody.isKinematic = !value;
             _mainCollider.enabled = !value;
-            GetComponent<HairGrowing>().SetAbleValueForHairColliders(false);
-            
+            GetComponent<HairGrowing>().SetAbleValueForHairColliders(!value);
+            hairEnd.SetActive(!value);
             var rigidbodies = hips.GetComponentsInChildren<Rigidbody>();
             foreach (var rb in rigidbodies)
             {
                 rb.isKinematic = !value;
                 if(addForce)
-                    rb.AddForce(Vector3.back * 5, ForceMode.Impulse);
+                    rb.AddForce(Vector3.back, ForceMode.Impulse);
             }
         }
 

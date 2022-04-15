@@ -14,15 +14,14 @@ public class ObstacleExplosion : MonoBehaviour
     [SerializeField] private AudioSource obstacleHitSound;
     [SerializeField] private AudioSource wallDestroySound;
     [SerializeField] private AudioSource obstacleDestroySound;
-
-    private const int GirlLayer = 3;
+    
     private const int GirlHairLayer = 8;
-    private const int BanditLayer = 10;
+    private const int EnemyLayer = 10;
     private const float ExplodeImpulsePower = 10f;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == GirlHairLayer || other.gameObject.layer == BanditLayer ||
+        if (other.gameObject.layer == GirlHairLayer || other.gameObject.layer == EnemyLayer ||
             other.gameObject.CompareTag("Girl"))
         {
             obstacleObject.SetActive(false);

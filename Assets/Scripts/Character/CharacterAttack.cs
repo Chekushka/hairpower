@@ -17,6 +17,7 @@ namespace Character
         private CharacterAnimating _animating;
         private HairGrowing _growing;
         private TailAnimator2 _hairTailAnimator;
+        private CameraChanging _cameraChanging;
 
         #region Consts
 
@@ -36,6 +37,7 @@ namespace Character
             _animating = GetComponent<CharacterAnimating>();
             _growing = GetComponent<HairGrowing>();
             _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
+            _cameraChanging = FindObjectOfType<CameraChanging>();
         }
 
         public void StartDelayedAttack() => StartCoroutine(DelayedAttack());
@@ -43,6 +45,7 @@ namespace Character
 
         private void Attack()
         {
+            _cameraChanging.ChangeCamera(CameraType.Attack);
             _movement.isSideAttack = false;
             _growing.SetAbleValueForHairColliders(false);
             _hairTailAnimator.Gravity = Vector3.zero;
@@ -73,6 +76,7 @@ namespace Character
             _hairTailAnimator.Slithery = HairSlitheryDefault;
             _hairTailAnimator.AngleLimit = HairAngleLimitDefault;
             _movement.isSideAttack = false;
+            _cameraChanging.ChangeCamera(CameraType.Main);
         }
 
         private IEnumerator DelayedAttack()

@@ -22,5 +22,6 @@ public class CameraChanging : MonoBehaviour
 public enum CameraType
 {
     Main,
-    Finish
+    Finish,
+    Attack
 }
