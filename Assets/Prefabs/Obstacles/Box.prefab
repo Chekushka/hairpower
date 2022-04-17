@@ -79,9 +79,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e504de8bfde574e9ace1357a8a32c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isWall: 0
+  type: 2
   obstacleObject: {fileID: 9082550637187669333}
   triggerCollider: {fileID: 1766767937}
+  explosionWaveCollider: {fileID: 0}
   obstaclesParts:
   - {fileID: 7700524319785675503}
   - {fileID: 6357631422331841227}
@@ -735,6 +736,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 3941715523697911101, guid: d6f39d3464d45aa43b50ba9b81b1873f, type: 3}
+--- !u!114 &3137967173585512785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215554660392066569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f0981d7d04332d4ebfd81203ca5b1bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4307912821903600139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -842,18 +855,6 @@ MonoBehaviour:
   optionalRotationMode: 0
   optionalScrambleMode: 0
   optionalString: 
---- !u!114 &3137967173585512785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 215554660392066569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f0981d7d04332d4ebfd81203ca5b1bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &1181270459865353693
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1629,6 +1630,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1444909868921906229, guid: d6f39d3464d45aa43b50ba9b81b1873f, type: 3}
+--- !u!114 &567729351426386664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3294525104490329343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f0981d7d04332d4ebfd81203ca5b1bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6985760022783696041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1736,18 +1749,6 @@ MonoBehaviour:
   optionalRotationMode: 0
   optionalScrambleMode: 0
   optionalString: 
---- !u!114 &567729351426386664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3294525104490329343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f0981d7d04332d4ebfd81203ca5b1bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &2898884458436836468
 Rigidbody:
   m_ObjectHideFlags: 0

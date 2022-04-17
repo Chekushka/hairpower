@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Girl
+  - ExplosionWave
   layers:
   - Default
   - TransparentFX

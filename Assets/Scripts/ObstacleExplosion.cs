@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class ObstacleExplosion : MonoBehaviour
 {
-    [SerializeField] private bool isWall;
+    [SerializeField] private ObstacleType type;
     [SerializeField] private GameObject obstacleObject;
     [SerializeField] private Collider triggerCollider;
+    [SerializeField] private Collider explosionWaveCollider;
     [SerializeField] private List<Rigidbody> obstaclesParts;
     [SerializeField] private ParticleSystem punchPrefab;
     [SerializeField] private ParticleSystem hitSmokePrefab;
@@ -38,7 +39,7 @@ public class ObstacleExplosion : MonoBehaviour
             obstacleHitSound.Play();
             Instantiate(punchPrefab, other.transform.position, Quaternion.identity);
             Instantiate(hitSmokePrefab, other.transform.position, Quaternion.identity);
-            if (isWall)
+            if (type == ObstacleType.Wall)
                 wallDestroySound.Play();
             else
                 obstacleDestroySound.Play();
@@ -70,6 +71,16 @@ public class ObstacleExplosion : MonoBehaviour
             part.AddForce(direction * ExplodeImpulsePower, ForceMode.Impulse);
             if (explosion != null)
                 Instantiate(explosion, transform.position, Quaternion.identity);
+
+            if (type == ObstacleType.Barrel)
+                explosionWaveCollider.gameObject.SetActive(true);
         }
     }
+}
+
+public enum ObstacleType
+{
+    Wall,
+    Barrel,
+    Box
 }

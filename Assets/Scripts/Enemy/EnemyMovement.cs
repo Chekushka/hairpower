@@ -28,6 +28,7 @@ namespace Enemy
 
         private const int GirlHairLayer = 8;
         private const int GirlLayer = 3;
+        private const int ObstacleLayer = 6;
 
         private void Start()
         {
@@ -69,6 +70,16 @@ namespace Enemy
                     Instantiate(onHitParticles, other.transform.position, Quaternion.identity);
                     EnableRagDoll(true);
                     deathSound.Play();
+                    break;
+                case ObstacleLayer:
+                    if (other.gameObject.CompareTag("ExplosionWave"))
+                    {
+                        hitSound.Play();
+                        _isMoving = false;
+                        Instantiate(onHitParticles, other.transform.position, Quaternion.identity);
+                        EnableRagDoll(true);
+                        deathSound.Play();
+                    }
                     break;
                 case GirlLayer:
                     _isMoving = false;
