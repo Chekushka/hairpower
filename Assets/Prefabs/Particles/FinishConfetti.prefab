@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2660269565751662873}
   - component: {fileID: 2660269565732232355}
   - component: {fileID: 2660269565734200961}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Clouds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4795,7 +4795,7 @@ GameObject:
   - component: {fileID: 2660269565751639435}
   - component: {fileID: 2660269565732227663}
   - component: {fileID: 2660269565734245725}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FinishConfetti
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9482,7 +9482,7 @@ GameObject:
   - component: {fileID: 2660269565751612839}
   - component: {fileID: 2660269565732249773}
   - component: {fileID: 2660269565732295081}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

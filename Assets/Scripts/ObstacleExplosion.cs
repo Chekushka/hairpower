@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Character;
 using UnityEngine;
@@ -10,6 +9,7 @@ public class ObstacleExplosion : MonoBehaviour
     [SerializeField] private Collider triggerCollider;
     [SerializeField] private Collider explosionWaveCollider;
     [SerializeField] private List<Rigidbody> obstaclesParts;
+    [SerializeField] private GameObject hairGrowItem;
     [SerializeField] private ParticleSystem punchPrefab;
     [SerializeField] private ParticleSystem hitSmokePrefab;
     [SerializeField] private ParticleSystem explosion;
@@ -37,12 +37,22 @@ public class ObstacleExplosion : MonoBehaviour
             }
             
             obstacleHitSound.Play();
-            Instantiate(punchPrefab, other.transform.position, Quaternion.identity);
+            Instantiate(punchPrefab, other.transform.position, Quaternion.Euler(0,180,0));
             Instantiate(hitSmokePrefab, other.transform.position, Quaternion.identity);
-            if (type == ObstacleType.Wall)
-                wallDestroySound.Play();
-            else
-                obstacleDestroySound.Play();
+            
+            switch (type)
+            {
+                case ObstacleType.Wall:
+                    wallDestroySound.Play();
+                    break;
+                case ObstacleType.Box:
+                    hairGrowItem.SetActive(true);
+                    obstacleDestroySound.Play();
+                    break;
+                default:
+                    obstacleDestroySound.Play();
+                    break;
+            }
 
             Explode(other);
         }
@@ -50,8 +60,12 @@ public class ObstacleExplosion : MonoBehaviour
 
     private void Explode(Component other)
     {
-        var isSideAttack =
-            other.gameObject.layer == GirlHairLayer && other.GetComponentInParent<CharacterMovement>().isSideAttack;
+        bool isSideAttack;
+        if (other.GetComponentInParent<CharacterMovement>() != null)
+            isSideAttack =
+                other.gameObject.layer == GirlHairLayer && other.GetComponentInParent<CharacterMovement>().isSideAttack;
+        else
+            isSideAttack = false;
 
         foreach (var part in obstaclesParts)
         {

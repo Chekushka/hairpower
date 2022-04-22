@@ -12,6 +12,7 @@ namespace Character
         [SerializeField] private float spinAttackDelay;
         [SerializeField] private AudioSource attackSound;
         [SerializeField] private MMF_Player spinFeedback;
+        [SerializeField] private TrailRenderer hairBallTrail;
 
         private CharacterMovement _movement;
         private CharacterAnimating _animating;
@@ -19,7 +20,7 @@ namespace Character
         private TailAnimator2 _hairTailAnimator;
         private CameraChanging _cameraChanging;
 
-        #region Consts
+        #region TailAnimatorConsts
 
         private const float HairSlitheryDefault = 1f;
         private const float HairSlitheryOnSpin = 0.4f;

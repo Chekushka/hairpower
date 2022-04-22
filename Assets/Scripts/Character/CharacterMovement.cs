@@ -29,12 +29,13 @@ namespace Character
         private Collider _mainCollider;
         private Rigidbody _mainRigidbody;
         private TailAnimator2 _hairTailAnimator;
+        private FinishHairShooting _finishHairShooting;
         private Camera _camera;
 
         private bool _isWaitingForRun = true;
         private bool _isRunning;
         private bool _isFinish;
-        
+
         private const float PlatformBorderDistance = 1.9f;
         
         private void Start()
@@ -46,6 +47,7 @@ namespace Character
             _mainCollider = GetComponent<Collider>();
             _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
             _inputControls = FindObjectOfType<InputControls>();
+            _finishHairShooting = GetComponent<FinishHairShooting>();
             _camera = Camera.main;
 
             EnableRagDoll(false, false);
@@ -66,8 +68,8 @@ namespace Character
         public void SetFinish()
         {
             DisableAllMovement();
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-            _animating.SetFinishDance();
+            // transform.rotation = Quaternion.Euler(0, 180, 0);
+            // _animating.SetFinishDance();
             _isFinish = true;
         }
 
@@ -117,15 +119,22 @@ namespace Character
                     _attack.StartDelayedAttack();
             }
             else
-                DisableAllMovement();
-            
-            
+            {
+                if(_isFinish)
+                    _finishHairShooting.StartAction();
+                else
+                    DisableAllMovement();
+            }
+
+
             CancelInvoke(nameof(SetRun));
             _isWaitingForRun = true;
         }
 
         private void MoveForward()
         {
+            if (_isFinish) return;
+            
             if (_isWaitingForRun)
             {
                 Invoke(nameof(SetRun), timeWhenRunEnables);

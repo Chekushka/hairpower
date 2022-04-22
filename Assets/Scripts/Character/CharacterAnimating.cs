@@ -16,6 +16,8 @@ namespace Character
         private static readonly int Finish = Animator.StringToHash("Finish");
         private static readonly int SwingJump = Animator.StringToHash("SwingJump");
         private static readonly int Idle = Animator.StringToHash("Idle");
+        private static readonly int FinalHit = Animator.StringToHash("FinalHit");
+        private static readonly int FinishIdle = Animator.StringToHash("FinishIdle");
 
         private const string UpperBodyLayerName = "UpperBody";
 
@@ -33,6 +35,8 @@ namespace Character
         public void HairSetAttack() => hairAnimator.SetTrigger(Attack);
         public void HairSetSpinAttack() => hairAnimator.SetTrigger(SpinAttack);
         public void SetSwingJump() => _characterAnimator.SetTrigger(SwingJump);
+        public void SetFinalHit() => _characterAnimator.SetTrigger(FinalHit);
+        public void SetFinishIdle() => _characterAnimator.SetTrigger(FinishIdle);
 
         public void EnableAttackLayer() => 
             _characterAnimator.SetLayerWeight(_characterAnimator.GetLayerIndex(UpperBodyLayerName), 90);
