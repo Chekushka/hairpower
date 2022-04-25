@@ -10,7 +10,6 @@ public class FinishHairShooting : MonoBehaviour
     [SerializeField] private float hairRotationSpeed;
     [SerializeField] private float hairFlySpeed;
     [SerializeField] private float flyTime;
-    [SerializeField] private TrailRenderer hairBallTrail;
     [SerializeField] private AudioSource hairSpinOnWait;
     [SerializeField] private AudioSource finalAttackWait;
     [SerializeField] private AudioSource finalAttack;
@@ -42,9 +41,6 @@ public class FinishHairShooting : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(_isWaitingForAction)
-            hairTailAnimator.transform.parent.Rotate(Vector3.up * hairRotationSpeed * Time.deltaTime, 
-                Space.Self);
         if(_isHairFly)
             hairTailAnimator.transform.position += Vector3.forward * hairFlySpeed * Time.deltaTime;
     }
@@ -53,15 +49,7 @@ public class FinishHairShooting : MonoBehaviour
     {
         _characterMovement.SetFinish();
         _girlAnimation.SetFinishIdle();
-        hairBallTrail.enabled = true;
-        hairTailAnimator.Curling = HairCurlingOnAction;
-        hairTailAnimator.Slithery = HairSlitheryOnAction;
-        hairTailAnimator.AngleLimit = HairAngleLimitOnAction;
-        hairTailAnimator.UseWaving = false;
-        hairTailAnimator.transform.localRotation = Quaternion.Euler(-10, 0, 0);
         _isWaitingForAction = true;
-        hairSpinOnWait.Play();
-        finalAttackWait.Play();
     }
 
     public void StartAction()
@@ -75,13 +63,16 @@ public class FinishHairShooting : MonoBehaviour
     private IEnumerator DelayedAction()
     {
         _girlAnimation.SetFinalHit();
-        yield return new WaitForSeconds(0.3f);
-        _isWaitingForAction = false;
-        hairBallTrail.enabled = false;
-        hairSpinOnWait.Stop();
-        finalAttackWait.Stop();
-        finalAttack.Play();
         _cameraChanging.ChangeCamera(CameraType.Hair);
+        yield return new WaitForSeconds(0.5f);
+        var hairAnimatorTransform = hairTailAnimator.transform;
+        hairAnimatorTransform.position =
+            new Vector3(0, hairAnimatorTransform.position.y, hairAnimatorTransform.position.z);
+        hairTailAnimator.Curling = HairCurlingOnAction;
+        hairTailAnimator.Slithery = HairSlitheryOnAction;
+        hairTailAnimator.AngleLimit = HairAngleLimitOnAction;
+        _isWaitingForAction = false;
+        finalAttack.Play();
         hairTailAnimator.transform.parent = null;
         hairTailAnimator.transform.rotation = Quaternion.Euler(0, 180, 0);
         _isHairFly = true;
@@ -93,7 +84,6 @@ public class FinishHairShooting : MonoBehaviour
         yield return new WaitForSeconds(hairFlyTime);
         _cameraChanging.FreezeCamera();
         _isHairFly = false;
-        hairBallTrail.enabled = false;
         hairTailAnimator.Curling = HairCurlingDefault;
         hairTailAnimator.Slithery = HairSlitheryDefault;
         hairTailAnimator.AngleLimit = HairAngleLimitDefault;

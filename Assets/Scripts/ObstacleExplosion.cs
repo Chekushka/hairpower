@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Character;
+using GrowItems;
 using UnityEngine;
 
 public class ObstacleExplosion : MonoBehaviour
@@ -9,7 +10,7 @@ public class ObstacleExplosion : MonoBehaviour
     [SerializeField] private Collider triggerCollider;
     [SerializeField] private Collider explosionWaveCollider;
     [SerializeField] private List<Rigidbody> obstaclesParts;
-    [SerializeField] private GameObject hairGrowItem;
+    [SerializeField] private GrowItemBoxFalling growItem;
     [SerializeField] private ParticleSystem punchPrefab;
     [SerializeField] private ParticleSystem hitSmokePrefab;
     [SerializeField] private ParticleSystem explosion;
@@ -46,7 +47,8 @@ public class ObstacleExplosion : MonoBehaviour
                     wallDestroySound.Play();
                     break;
                 case ObstacleType.Box:
-                    hairGrowItem.SetActive(true);
+                    if(growItem != null) 
+                        growItem.SetToFall();
                     obstacleDestroySound.Play();
                     break;
                 default:

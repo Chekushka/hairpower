@@ -58,7 +58,7 @@ namespace Character
 
         private void FixedUpdate()
         {
-            if (isMoving && !_jumping.IsJumping())
+            if (isMoving && !_jumping.IsJumping() && !_isFinish)
             {
                 MoveForward();
                 SideMove(_inputControls.GetFingerPos());
@@ -68,8 +68,6 @@ namespace Character
         public void SetFinish()
         {
             DisableAllMovement();
-            // transform.rotation = Quaternion.Euler(0, 180, 0);
-            // _animating.SetFinishDance();
             _isFinish = true;
         }
 

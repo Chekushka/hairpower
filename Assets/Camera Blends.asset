@@ -36,10 +36,10 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
   - m_From: MainCamera(vCM)
-    m_To: FinishCamera(vCM)
+    m_To: HairCamera(vCM)
     m_Blend:
       m_Style: 1
-      m_Time: 1
+      m_Time: 0.3
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []

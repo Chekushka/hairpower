@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using FIMSpace.FTail;
 using MoreMountains.Feedbacks;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Character
         [SerializeField] private float spinAttackDelay;
         [SerializeField] private AudioSource attackSound;
         [SerializeField] private MMF_Player spinFeedback;
-        [SerializeField] private TrailRenderer hairBallTrail;
+        [SerializeField] private List<TrailRenderer> hairBallTrails;
 
         private CharacterMovement _movement;
         private CharacterAnimating _animating;
@@ -25,7 +26,7 @@ namespace Character
         private const float HairSlitheryDefault = 1f;
         private const float HairSlitheryOnSpin = 0.4f;
         private const float HairCurlingDefault = 0.8f;
-        private const float HairAngleLimitOnSpin = 40;
+        private const float HairAngleLimitOnSpin = 80;
         private const float HairAngleLimitDefault = 181;
         private const float HairCurlingOnSpin = 0.3f;
         private const float HairCurlingOnAttack = 0.3f;
@@ -61,12 +62,14 @@ namespace Character
         private void SpinAttack()
         {
             _movement.isSideAttack = true;
+            foreach (var trail in hairBallTrails)
+                trail.enabled = true;
             _hairTailAnimator.Curling = HairCurlingOnSpin;
             _hairTailAnimator.Slithery = HairSlitheryOnSpin;
             _hairTailAnimator.AngleLimit = HairAngleLimitOnSpin;
             StartCoroutine(DelayedHairSpin());
 
-            StartCoroutine(EndAttack(1.5f));
+            StartCoroutine(EndAttack(2f));
         }
 
         private IEnumerator EndAttack(float delay)
@@ -78,6 +81,7 @@ namespace Character
             _hairTailAnimator.AngleLimit = HairAngleLimitDefault;
             _movement.isSideAttack = false;
             _cameraChanging.ChangeCamera(CameraType.Main);
+            StartCoroutine(DisableTrails());
         }
 
         private IEnumerator DelayedAttack()
@@ -105,6 +109,13 @@ namespace Character
             yield return new WaitForSeconds(0.4f);
             _growing.SetAbleValueForHairColliders(true);
             _animating.HairSetAttack();
+        }
+
+        private IEnumerator DisableTrails()
+        {
+            yield return new WaitForSeconds(1.5f);
+            foreach (var trail in hairBallTrails)
+                trail.enabled = false;
         }
     }
 }
