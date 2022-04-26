@@ -7,11 +7,8 @@ public class FinishHairShooting : MonoBehaviour
 {
     [SerializeField] private TailAnimator2 hairTailAnimator;
     [SerializeField] private GameObject levelComplete;
-    [SerializeField] private float hairRotationSpeed;
     [SerializeField] private float hairFlySpeed;
     [SerializeField] private float flyTime;
-    [SerializeField] private AudioSource hairSpinOnWait;
-    [SerializeField] private AudioSource finalAttackWait;
     [SerializeField] private AudioSource finalAttack;
     
     private CharacterAnimating _girlAnimation;
@@ -62,6 +59,7 @@ public class FinishHairShooting : MonoBehaviour
 
     private IEnumerator DelayedAction()
     {
+        transform.rotation = Quaternion.Euler(Vector3.zero);
         _girlAnimation.SetFinalHit();
         _cameraChanging.ChangeCamera(CameraType.Hair);
         yield return new WaitForSeconds(0.5f);

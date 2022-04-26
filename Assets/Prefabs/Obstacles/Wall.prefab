@@ -3707,7 +3707,7 @@ MonoBehaviour:
   autoGenerate: 1
   isActive: 1
   isValid: 1
-  target: {fileID: 1784630347}
+  target: {fileID: 1005013663}
   animationType: 5
   targetType: 11
   forcedTargetType: 0
@@ -9616,6 +9616,7 @@ MonoBehaviour:
   - {fileID: 410337349}
   - {fileID: 981963701}
   - {fileID: 1784630348}
+  growItem: {fileID: 0}
   punchPrefab: {fileID: 7618479101016219176, guid: 1176c917e33ab9a48bc910664caf1fc9, type: 3}
   hitSmokePrefab: {fileID: 8948165021703159482, guid: b0beeb8c435f19a41a7d888b81abe0ff, type: 3}
   explosion: {fileID: 0}

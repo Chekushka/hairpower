@@ -14,23 +14,22 @@ namespace Character
 
         public bool isReadyToJump;
         private bool _isJumping;
-        private bool _isOnHorizontalBar;
 
         private CharacterMovement _movement;
         private CharacterAnimating _animating;
-        private CameraLookPointPositioning _cameraLookPoint;
+        private CharacterFootstepsSoundPlaying _footstepsSoundPlaying;
 
         private void Start()
         {
             _animating = GetComponent<CharacterAnimating>();
             _movement = GetComponent<CharacterMovement>();
-            _cameraLookPoint = FindObjectOfType<CameraLookPointPositioning>();
+            _footstepsSoundPlaying = GetComponent<CharacterFootstepsSoundPlaying>();
             InputControls.OnTap += StartJump;
         }
 
         private void FixedUpdate()
         {
-            if(_isJumping && !_isOnHorizontalBar)
+            if(_isJumping)
                 transform.position += Vector3.forward * jumpingSpeed * Time.deltaTime;
         }
 
@@ -38,6 +37,7 @@ namespace Character
 
         public void StartParkourJump()
         {
+            _footstepsSoundPlaying.isWalking = false;
             _animating.SetParkourJump();
             jumpStartSound.Play();
             _movement.DisableRunning();
@@ -45,19 +45,11 @@ namespace Character
             StartCoroutine(EndJump(parkourJumpTime));
         }
 
-        public void StartHorizontalBarAction()
-        {
-            _animating.SetSwingJump();
-            _isJumping = true;
-            _isOnHorizontalBar = true;
-            _cameraLookPoint.EnableCameraFollowHips();
-            StartCoroutine(EndHorizontalBarJump(2.1f));
-        }
-
         private void StartJump()
         {
             if (isReadyToJump)
             {
+                _footstepsSoundPlaying.isWalking = false;
                 _animating.SetJumping();
                 jumpStartSound.Play();
                 StartCoroutine(SetJumping(0.2f));
@@ -77,17 +69,8 @@ namespace Character
             isReadyToJump = false;
             _isJumping = false;
             jumpEndSound.Play();
-        }
-
-        private IEnumerator EndHorizontalBarJump(float animationTime)
-        {
-            yield return new WaitForSeconds(animationTime);
-            _isJumping = false;
-            _isOnHorizontalBar = false;
-            transform.position += Vector3.forward * 2.5f;
-            _animating.SetIdleTrigger();
-            _cameraLookPoint.DisableCameraFollowHips();
-            jumpEndSound.Play();
+            _footstepsSoundPlaying.isWalking = true;
+            _movement.RestartMovement();
         }
     }
 }

@@ -26,6 +26,7 @@ namespace Character
         private CharacterAnimating _animating;
         private CharacterAttack _attack;
         private CharacterJumping _jumping;
+        private CharacterFootstepsSoundPlaying _footstepsSoundPlaying;
         private Collider _mainCollider;
         private Rigidbody _mainRigidbody;
         private TailAnimator2 _hairTailAnimator;
@@ -43,6 +44,7 @@ namespace Character
             _animating = GetComponent<CharacterAnimating>();
             _attack = GetComponent<CharacterAttack>();
             _jumping = GetComponent<CharacterJumping>();
+            _footstepsSoundPlaying = GetComponent<CharacterFootstepsSoundPlaying>();
             _mainRigidbody = GetComponent<Rigidbody>();
             _mainCollider = GetComponent<Collider>();
             _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
@@ -71,14 +73,25 @@ namespace Character
             _isFinish = true;
         }
 
+        public void SetTimeWhenRunEnables(float time) => timeWhenRunEnables = time;
         public void DisableAllMovement()
         {
+            CancelInvoke(nameof(SetRun));
+            _isWaitingForRun = true;
             _animating.SetIdle();
             isMoving = false;
             _isRunning = false;
+            _animating.SetRunning(false);
+            _footstepsSoundPlaying.isWalking = false;
         }
 
         public void DisableRunning() => _isRunning = false;
+
+        public void RestartMovement()
+        {
+            CancelInvoke(nameof(SetRun));
+            _isWaitingForRun = true;
+        }
 
         public void EnableRagDoll(bool value, bool addForce)
         {
@@ -123,10 +136,6 @@ namespace Character
                 else
                     DisableAllMovement();
             }
-
-
-            CancelInvoke(nameof(SetRun));
-            _isWaitingForRun = true;
         }
 
         private void MoveForward()
@@ -167,15 +176,20 @@ namespace Character
         
         private void SetMoving()
         {
+            if(_isFinish) return;
+            
             transform.rotation = Quaternion.identity;
             isMoving = true;
             _animating.SetMoving();
+            _footstepsSoundPlaying.SetSoundDelayToWalking();
+            _footstepsSoundPlaying.isWalking = true;
         }
 
         private void SetRun()
         {
             _isRunning = true;
-            _animating.SetRunning();
+            _animating.SetRunning(true);
+            _footstepsSoundPlaying.SetSoundDelayToRunning();
         }
     }
 }

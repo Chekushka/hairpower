@@ -7,6 +7,7 @@ TagManager:
   - Wall
   - Girl
   - ExplosionWave
+  - HairBall
   layers:
   - Default
   - TransparentFX

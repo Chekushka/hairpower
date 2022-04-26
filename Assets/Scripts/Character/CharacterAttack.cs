@@ -17,6 +17,7 @@ namespace Character
 
         private CharacterMovement _movement;
         private CharacterAnimating _animating;
+        private CharacterFootstepsSoundPlaying _footstepsSoundPlaying;
         private HairGrowing _growing;
         private TailAnimator2 _hairTailAnimator;
         private CameraChanging _cameraChanging;
@@ -37,6 +38,7 @@ namespace Character
         {
             _movement = GetComponent<CharacterMovement>();
             _animating = GetComponent<CharacterAnimating>();
+            _footstepsSoundPlaying = GetComponent<CharacterFootstepsSoundPlaying>();
             _growing = GetComponent<HairGrowing>();
             _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
             _cameraChanging = FindObjectOfType<CameraChanging>();
@@ -47,6 +49,7 @@ namespace Character
 
         private void Attack()
         {
+            _footstepsSoundPlaying.isWalking = false;
             _cameraChanging.ChangeCamera(CameraType.Attack);
             _movement.isSideAttack = false;
             _growing.SetAbleValueForHairColliders(false);
@@ -61,6 +64,7 @@ namespace Character
 
         private void SpinAttack()
         {
+            _footstepsSoundPlaying.isWalking = false;
             _movement.isSideAttack = true;
             foreach (var trail in hairBallTrails)
                 trail.enabled = true;

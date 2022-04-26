@@ -21,6 +21,7 @@ public class ObstacleExplosion : MonoBehaviour
     private const int GirlHairLayer = 8;
     private const int EnemyLayer = 10;
     private const float ExplodeImpulsePower = 10f;
+    private const float FinishWallExplodeImpulsePower = 50f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -44,6 +45,9 @@ public class ObstacleExplosion : MonoBehaviour
             switch (type)
             {
                 case ObstacleType.Wall:
+                    wallDestroySound.Play();
+                    break;
+                case ObstacleType.FinishWall:
                     wallDestroySound.Play();
                     break;
                 case ObstacleType.Box:
@@ -84,7 +88,8 @@ public class ObstacleExplosion : MonoBehaviour
                     randomValueForForward >= 0.5f ? Vector3.forward : Vector3.forward + explosionSideDirection;
             }
 
-            part.AddForce(direction * ExplodeImpulsePower, ForceMode.Impulse);
+            var impulsePower = type == ObstacleType.FinishWall ? FinishWallExplodeImpulsePower : ExplodeImpulsePower;
+            part.AddForce(direction * impulsePower, ForceMode.Impulse);
             if (explosion != null)
                 Instantiate(explosion, transform.position, Quaternion.identity);
 
@@ -98,5 +103,6 @@ public enum ObstacleType
 {
     Wall,
     Barrel,
-    Box
+    Box,
+    FinishWall
 }
