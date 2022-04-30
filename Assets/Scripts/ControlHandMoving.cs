@@ -3,17 +3,16 @@ using UnityEngine;
 public class ControlHandMoving : MonoBehaviour
 {
    [SerializeField] private GameObject hand;
+   [SerializeField] private GameObject handOnTap;
    private InputControls _inputControls;
-   private Camera _mainCamera;
+   private Transform _currentHandTransform;
    private bool _isMovementGoing;
    
    private void Start()
    {
       _inputControls = FindObjectOfType<InputControls>();
-      InputControls.OnHoldForwardStarted += EnableHand;
-      InputControls.OnHoldForwardEnded += DisableHand;
-      
-      _mainCamera = Camera.main;
+      InputControls.OnHoldForwardStarted += EnableTapHand;
+      InputControls.OnHoldForwardEnded += DisableTapHand;
    }
 
    private void Update()
@@ -24,19 +23,23 @@ public class ControlHandMoving : MonoBehaviour
 
    private void MoveHand(Vector2 fingerPos)
    {
-      hand.transform.position = fingerPos;
+      _currentHandTransform.position = fingerPos;
    }
 
-   private void EnableHand()
+   private void EnableTapHand()
    {
       _isMovementGoing = true;
-      hand.SetActive(true);
+      hand.SetActive(false);
+      handOnTap.SetActive(true);
+      _currentHandTransform = handOnTap.transform;
    }
 
   
-   private void DisableHand()
+   private void DisableTapHand()
    {
       _isMovementGoing = false;
-      hand.SetActive(false);
+      hand.SetActive(true);
+      handOnTap.SetActive(false);
+      _currentHandTransform = hand.transform;
    }
 }
