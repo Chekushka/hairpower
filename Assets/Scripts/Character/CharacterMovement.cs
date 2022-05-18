@@ -69,19 +69,22 @@ namespace Character
 
         public void SetFinish()
         {
-            DisableAllMovement();
+            DisableAllMovement(false);
             _isFinish = true;
         }
 
         public void SetTimeWhenRunEnables(float time) => timeWhenRunEnables = time;
-        public void DisableAllMovement()
+        public void DisableAllMovement(bool isBeforeAttack)
         {
             CancelInvoke(nameof(SetRun));
             _isWaitingForRun = true;
-            _animating.SetIdle();
+            if (!isBeforeAttack)
+            {
+                _animating.SetIdle();
+                _animating.SetRunning(false);
+            }
             isMoving = false;
             _isRunning = false;
-            _animating.SetRunning(false);
             _footstepsSoundPlaying.isWalking = false;
         }
 
@@ -124,7 +127,7 @@ namespace Character
                     if(isAbleToSpin) 
                         _attack.StartDelayedSpinAttack();
                     else
-                        DisableAllMovement();
+                        DisableAllMovement(false);
                 }
                 else
                     _attack.StartDelayedAttack();
@@ -134,7 +137,7 @@ namespace Character
                 if(_isFinish)
                     _finishHairShooting.StartAction();
                 else
-                    DisableAllMovement();
+                    DisableAllMovement(false);
             }
         }
 

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Character;
 using GrowItems;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ObstacleExplosion : MonoBehaviour
 {
@@ -18,23 +19,39 @@ public class ObstacleExplosion : MonoBehaviour
     [SerializeField] private AudioSource wallDestroySound;
     [SerializeField] private AudioSource obstacleDestroySound;
     
+    private const int PlatformLayer = 7;
     private const int GirlHairLayer = 8;
     private const int EnemyLayer = 10;
-    private const float ExplodeImpulsePower = 10f;
-    private const float FinishWallExplodeImpulsePower = 50f;
+    private const float ExplodeImpulsePower = 8f;
+    private const float FinishWallExplodeImpulsePower = 1f;
+    private const float FallingDelta = 0.01f;
 
-    private void OnTriggerEnter(Collider other)
+    private float _lastYPos;
+    private bool _isFalling;
+
+    private void Start() => _lastYPos = transform.position.y;
+
+    private void Update()
     {
-        if (other.gameObject.layer == GirlHairLayer || other.gameObject.layer == EnemyLayer ||
-            other.gameObject.CompareTag("Girl"))
+        _isFalling = _lastYPos - transform.position.y > FallingDelta;
+        _lastYPos = transform.position.y;
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        var hitCondition = other.gameObject.layer == GirlHairLayer || other.gameObject.layer == EnemyLayer ||
+                            other.gameObject.CompareTag("Girl");
+        var fallCondition = other.gameObject.layer == PlatformLayer && _isFalling 
+                                                                    && !other.gameObject.CompareTag("Wall");
+        if (hitCondition || fallCondition)
         {
             obstacleObject.SetActive(false);
             triggerCollider.enabled = false;
             
             if (other.gameObject.CompareTag("Girl"))
             {
-                var girlMovement = other.GetComponent<CharacterMovement>();
-                girlMovement.DisableAllMovement();
+                var girlMovement = other.gameObject.GetComponent<CharacterMovement>();
+                girlMovement.DisableAllMovement(false);
                 girlMovement.EnableRagDoll(true, true);
             }
             
@@ -60,11 +77,11 @@ public class ObstacleExplosion : MonoBehaviour
                     break;
             }
 
-            Explode(other);
+            Explode(other.gameObject);
         }
     }
 
-    private void Explode(Component other)
+    private void Explode(GameObject other)
     {
         bool isSideAttack;
         if (other.GetComponentInParent<CharacterMovement>() != null)

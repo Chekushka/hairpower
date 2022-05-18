@@ -84,7 +84,7 @@ namespace Enemy
                 case GirlLayer:
                     _isMoving = false;
                     _animating.SetAttack();
-                    _girlMovement.DisableAllMovement();
+                    _girlMovement.DisableAllMovement(false);
                     StartCoroutine(DelayedGirlFall(delayToGirlFall));
                     break;
             }

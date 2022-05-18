@@ -17,6 +17,7 @@ namespace Character
         private static readonly int IsIdle = Animator.StringToHash("IsIdle");
         private static readonly int FinalHit = Animator.StringToHash("FinalHit");
         private static readonly int FinishIdle = Animator.StringToHash("FinishIdle");
+        private static readonly int LowerSpinAttack = Animator.StringToHash("LowerSpinAttack");
 
         private void Start() => _characterAnimator = GetComponent<Animator>();
 
@@ -35,9 +36,9 @@ namespace Character
         public void SetRunning(bool value) => _characterAnimator.SetBool(IsRunning, value);
         public void SetJumping() => _characterAnimator.SetTrigger(Jump);
         public void SetParkourJump() => _characterAnimator.SetTrigger(ParkourJump);
-        public void SetFinishDance() => _characterAnimator.SetTrigger(Finish);
         public void HairSetAttack() => hairAnimator.SetTrigger(Attack);
         public void HairSetSpinAttack() => hairAnimator.SetTrigger(SpinAttack);
+        public void SetLowerSpinAttack() => _characterAnimator.SetTrigger(LowerSpinAttack);
         public void SetFinalHit() => _characterAnimator.SetTrigger(FinalHit);
         public void SetFinishIdle() => _characterAnimator.SetTrigger(FinishIdle);
 

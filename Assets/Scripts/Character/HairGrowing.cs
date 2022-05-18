@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using MoreMountains.Feedbacks;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Character
 {
@@ -53,6 +52,8 @@ namespace Character
             
             hairGrowingFeedback.PlayFeedbacks();
         }
+
+        public int GetActiveSegmentsCount() => activeSegmentsCount;
 
         public void SetAbleValueForHairColliders(bool value)
         {

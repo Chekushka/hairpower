@@ -18,7 +18,7 @@ public class JumpFailTrigger : MonoBehaviour
         if(other.gameObject.layer != GirlLayer) return;
         if (!_characterJumping.IsJumping())
         {
-            _characterMovement.DisableAllMovement();
+            _characterMovement.DisableAllMovement(false);
             _characterMovement.EnableRagDoll(true, false);
         }
     }
