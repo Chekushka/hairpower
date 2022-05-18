@@ -8,7 +8,8 @@
     "OpenedFoldouts": [
         "OPTIONS",
         "SURFACE",
-        "LIGHTING"
+        "LIGHTING",
+        "STYLIZATION"
     ],
     "UseCustomFont": true,
     "CustomFont": {
