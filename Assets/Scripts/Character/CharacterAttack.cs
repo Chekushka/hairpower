@@ -34,6 +34,8 @@ namespace Character
         private const float HairAngleLimitDefault = 181;
         private const float HairCurlingOnSpin = 0.3f;
         private const float HairCurlingOnAttack = 0.3f;
+        private const float HairSpringinessOnDefault = 0.5f;
+        private const float HairSpringinessOnAttack = 0.8f;
         private const float HairDefaultAngleX = -17;
 
         #endregion
@@ -54,21 +56,20 @@ namespace Character
         private void Attack()
         {
             _footstepsSoundPlaying.isWalking = false;
-            _cameraChanging.ChangeCamera(CameraType.Attack);
             _movement.isSideAttack = false;
             _growing.SetAbleValueForHairColliders(false);
             _hairTailAnimator.Gravity = Vector3.zero;
             _hairTailAnimator.Curling = HairCurlingOnAttack;
+            _hairTailAnimator.Springiness = HairSpringinessOnAttack;
             attackSound.Play();
             _animating.SetAttack();
 
             StartCoroutine(DelayedHairAttack());
-            StartCoroutine(EndAttack(1.2f));
+            StartCoroutine(EndAttack(0.8f));
         }
 
         private void SpinAttack()
         {
-            _cameraChanging.ChangeCamera(CameraType.Attack);
             _footstepsSoundPlaying.isWalking = false;
             for (var i = 0; i < hairPartsTrails.Count; i++)
             {
@@ -102,9 +103,9 @@ namespace Character
             _hairTailAnimator.Curling = HairCurlingDefault;
             _hairTailAnimator.Slithery = HairSlitheryDefault;
             _hairTailAnimator.AngleLimit = HairAngleLimitDefault;
+            _hairTailAnimator.Springiness = HairSpringinessOnDefault;
             _hairTailAnimator.transform.localRotation = Quaternion.Euler(HairDefaultAngleX ,0 ,0);
             _movement.isSideAttack = false;
-            _cameraChanging.ChangeCamera(CameraType.Main);
             StartCoroutine(DisableTrails());
         }
 

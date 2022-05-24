@@ -23,7 +23,7 @@ public class ObstacleExplosion : MonoBehaviour
     private const int GirlHairLayer = 8;
     private const int EnemyLayer = 10;
     private const float ExplodeImpulsePower = 8f;
-    private const float FinishWallExplodeImpulsePower = 1f;
+    private const float FinishWallExplodeImpulsePower = 5f;
     private const float FallingDelta = 0.01f;
 
     private float _lastYPos;
@@ -93,6 +93,7 @@ public class ObstacleExplosion : MonoBehaviour
         foreach (var part in obstaclesParts)
         {
             part.gameObject.SetActive(true);
+            if (type == ObstacleType.FinishWall) continue;
             Vector3 direction;
             if (isSideAttack)
                 direction = Vector3.left;
@@ -105,7 +106,7 @@ public class ObstacleExplosion : MonoBehaviour
                     randomValueForForward >= 0.5f ? Vector3.forward : Vector3.forward + explosionSideDirection;
             }
 
-            var impulsePower = type == ObstacleType.FinishWall ? FinishWallExplodeImpulsePower : ExplodeImpulsePower;
+            var impulsePower = ExplodeImpulsePower;
             part.AddForce(direction * impulsePower, ForceMode.Impulse);
             if (explosion != null)
                 Instantiate(explosion, transform.position, Quaternion.identity);

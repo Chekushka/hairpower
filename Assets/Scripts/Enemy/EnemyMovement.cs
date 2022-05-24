@@ -20,6 +20,7 @@ namespace Enemy
         [SerializeField] private AudioSource deathSound;
 
         private CharacterMovement _girlMovement;
+        private CloseEnemyLocating _enemyLocating;
         private Transform _girlTransform;
         private EnemyAnimating _animating;
         private Collider _mainCollider;
@@ -35,6 +36,7 @@ namespace Enemy
             _animating = GetComponent<EnemyAnimating>();
             _mainCollider = GetComponent<Collider>();
             _girlMovement = FindObjectOfType<CharacterMovement>();
+            _enemyLocating = FindObjectOfType<CloseEnemyLocating>();
             _girlTransform = _girlMovement.transform;
             
             EnableRagDoll(false);
@@ -67,7 +69,7 @@ namespace Enemy
                 case GirlHairLayer:
                     hitSound.Play();
                     _isMoving = false;
-                    Instantiate(onHitParticles, other.transform.position, Quaternion.identity);
+                    Instantiate(onHitParticles, transform.position + Vector3.up, Quaternion.identity);
                     EnableRagDoll(true);
                     deathSound.Play();
                     break;
@@ -76,7 +78,7 @@ namespace Enemy
                     {
                         hitSound.Play();
                         _isMoving = false;
-                        Instantiate(onHitParticles, other.transform.position, Quaternion.identity);
+                        Instantiate(onHitParticles, transform.position + Vector3.up, Quaternion.identity);
                         EnableRagDoll(true);
                         deathSound.Play();
                     }
@@ -98,9 +100,12 @@ namespace Enemy
 
         private void EnableRagDoll(bool value)
         {
-            if(value)
+            if (value)
+            {
                 _animating.DisableAnimator();
-            
+                _enemyLocating.RemoveObjectFromEnemies(gameObject);
+            }
+
             _mainCollider.enabled = !value;
             
             var rigidbodies = hips.GetComponentsInChildren<Rigidbody>();

@@ -13,11 +13,9 @@ namespace Character
         [SerializeField] private GameObject hairEnd;
         [SerializeField] private GameObject failWindow;
 
-        [Header("Ragdoll")]
-        [SerializeField] private Transform hips;
+        [Header("Ragdoll")] [SerializeField] private Transform hips;
 
-        [Header("Debug")] 
-        [SerializeField] private bool isAbleToSpin;
+        [Header("Debug")] [SerializeField] private bool isAbleToSpin;
 
         public bool isSideAttack;
         public bool isMoving;
@@ -38,7 +36,7 @@ namespace Character
         private bool _isFinish;
 
         private const float PlatformBorderDistance = 1.9f;
-        
+
         private void Start()
         {
             _animating = GetComponent<CharacterAnimating>();
@@ -64,6 +62,7 @@ namespace Character
             {
                 MoveForward();
                 SideMove(_inputControls.GetFingerPos());
+                CheckBorder();
             }
         }
 
@@ -74,6 +73,7 @@ namespace Character
         }
 
         public void SetTimeWhenRunEnables(float time) => timeWhenRunEnables = time;
+
         public void DisableAllMovement(bool isBeforeAttack)
         {
             CancelInvoke(nameof(SetRun));
@@ -83,6 +83,7 @@ namespace Character
                 _animating.SetIdle();
                 _animating.SetRunning(false);
             }
+
             isMoving = false;
             _isRunning = false;
             _footstepsSoundPlaying.isWalking = false;
@@ -113,7 +114,7 @@ namespace Character
             foreach (var rb in rigidbodies)
             {
                 rb.isKinematic = !value;
-                if(addForce)
+                if (addForce)
                     rb.AddForce(Vector3.back, ForceMode.Impulse);
             }
         }
@@ -124,7 +125,7 @@ namespace Character
             {
                 if (_isRunning)
                 {
-                    if(isAbleToSpin) 
+                    if (isAbleToSpin)
                         _attack.StartDelayedSpinAttack();
                     else
                         DisableAllMovement(false);
@@ -134,7 +135,7 @@ namespace Character
             }
             else
             {
-                if(_isFinish)
+                if (_isFinish)
                     _finishHairShooting.StartAction();
                 else
                     DisableAllMovement(false);
@@ -144,7 +145,7 @@ namespace Character
         private void MoveForward()
         {
             if (_isFinish) return;
-            
+
             if (_isWaitingForRun)
             {
                 Invoke(nameof(SetRun), timeWhenRunEnables);
@@ -159,28 +160,25 @@ namespace Character
 
         private void SideMove(Vector2 touchPosition)
         {
-            if (transform.position.x < PlatformBorderDistance && transform.position.x > -PlatformBorderDistance)
-            {
-                var convertedPos = new Vector3(touchPosition.x, touchPosition.y, 10f);
-                var fingerPos = _camera.ScreenToWorldPoint(convertedPos) * sideMovementSpeed;
-                transform.position = new Vector3(fingerPos.x, transform.position.y, transform.position.z);
-            }
-            else
-            {
-                float lastAvailablePosX = 0;
-                if (transform.position.x >= PlatformBorderDistance)
-                    lastAvailablePosX = PlatformBorderDistance - 0.01f;
-                if(transform.position.x <= -PlatformBorderDistance)
-                    lastAvailablePosX = -PlatformBorderDistance + 0.01f;
-                
-                transform.position = new Vector3(lastAvailablePosX, transform.position.y, transform.position.z);
-            }
+            var convertedPos = new Vector3(touchPosition.x, touchPosition.y, 10f);
+            var fingerPos = _camera.ScreenToWorldPoint(convertedPos) * sideMovementSpeed;
+            transform.position = new Vector3(fingerPos.x, transform.position.y, transform.position.z);
         }
-        
+
+        private void CheckBorder()
+        {
+            var lastAvailablePosX = transform.position.x;
+            if (transform.position.x > PlatformBorderDistance)
+                lastAvailablePosX = PlatformBorderDistance;
+            if (transform.position.x < -PlatformBorderDistance)
+                lastAvailablePosX = -PlatformBorderDistance;
+            transform.position = new Vector3(lastAvailablePosX, transform.position.y, transform.position.z);
+        }
+
         private void SetMoving()
         {
-            if(_isFinish) return;
-            
+            if (_isFinish) return;
+
             transform.rotation = Quaternion.identity;
             isMoving = true;
             _animating.SetMoving();

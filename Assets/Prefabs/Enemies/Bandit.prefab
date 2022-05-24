@@ -4831,7 +4831,7 @@ GameObject:
   - component: {fileID: 1403489019}
   m_Layer: 10
   m_Name: Bandit
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4926,7 +4926,7 @@ MonoBehaviour:
   movementSpeed: 2
   distanceWhenPlayerBecomeVisible: 0
   girlHitPower: 15
-  delayToGirlFall: 1
+  delayToGirlFall: 0.3
   isNeededForSideDirection: 0
   sideDirection: {x: 0, y: 0, z: 0}
   hips: {fileID: 4770204371094253318}

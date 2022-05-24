@@ -113,7 +113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7715936344036510094}
   - component: {fileID: 8972322136256845450}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ExplosionWave
   m_TagString: ExplosionWave
   m_Icon: {fileID: 0}
@@ -466,7 +466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e68152de1fb29c49b595250c5756431, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.06
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e68152de1fb29c49b595250c5756431, type: 3}
       propertyPath: m_LocalRotation.w
