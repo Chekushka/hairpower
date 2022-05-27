@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using FIMSpace.FTail;
 using MoreMountains.Feedbacks;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Character
 {
@@ -22,7 +21,7 @@ namespace Character
         private CharacterFootstepsSoundPlaying _footstepsSoundPlaying;
         private HairGrowing _growing;
         private TailAnimator2 _hairTailAnimator;
-        private CameraChanging _cameraChanging;
+        private ChargedAttackBarFill _attackBar;
         private bool _isDefaultSpinAttackPerformed;
 
         #region TailAnimatorConsts
@@ -47,7 +46,7 @@ namespace Character
             _footstepsSoundPlaying = GetComponent<CharacterFootstepsSoundPlaying>();
             _growing = GetComponent<HairGrowing>();
             _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
-            _cameraChanging = FindObjectOfType<CameraChanging>();
+            _attackBar = FindObjectOfType<ChargedAttackBarFill>();
         }
 
         public void StartDelayedAttack() => StartCoroutine(DelayedAttack());
@@ -94,6 +93,7 @@ namespace Character
                 _isDefaultSpinAttackPerformed = true;
             }
             StartCoroutine(EndAttack(2f));
+            _attackBar.ClearBar();
         }
 
         private IEnumerator EndAttack(float delay)

@@ -16,11 +16,10 @@ namespace Character
 
         private void Start()
         {
-            SetSoundDelayToWalking();
+            SetSoundDelayToRunning();
             StartCoroutine(DelayPlay());
         }
-
-        public void SetSoundDelayToWalking() => _currentSoundPlayDelay = walkingSoundPlayDelay;
+        
         public void SetSoundDelayToRunning() => _currentSoundPlayDelay = runningSoundPlayDelay;
 
         private void SwapTrack()

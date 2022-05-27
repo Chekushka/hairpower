@@ -1496,7 +1496,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -1.5825208e-10, y: 0.07338405, z: -0.00168265}
+  m_ConnectedAnchor: {x: 6.366463e-12, y: 0.07338405, z: -0.00168265}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -1913,7 +1913,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1949257100104205920}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: e79535cc37d5e964e84e22157f4f65cd, type: 3}
   m_Controller: {fileID: 9100000, guid: d5540fd7e3dd36f4886ec66355fc34e7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -1965,14 +1965,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9209672a0ae3e3641869078204c35ec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardMovementSpeed: 3
-  runSpeed: 4
+  forwardMovementSpeed: 4.2
   sideMovementSpeed: 0.5
-  timeWhenRunEnables: 4.4
   hairEnd: {fileID: 1949257099510989501}
   failWindow: {fileID: 0}
   hips: {fileID: 6635672938666310734}
-  isAbleToSpin: 1
   isSideAttack: 0
   isMoving: 0
 --- !u!114 &1714832217534232785
@@ -2866,7 +2863,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0000000023283064, y: 0.46179828, z: -0.0000004065223}
+  m_ConnectedAnchor: {x: -9.313226e-10, y: 0.4617984, z: -0.0000004079193}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -3007,7 +3004,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.10059621, y: -0.040748373, z: 0.002715273}
+  m_ConnectedAnchor: {x: 0.100596204, y: -0.040748373, z: 0.002715273}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -3346,7 +3343,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0000000023283064, y: 0.4619025, z: 0.0000004551839}
+  m_ConnectedAnchor: {x: 9.313226e-10, y: 0.46190262, z: 0.00000045448542}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -3945,7 +3942,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -1.6734703e-10, y: 0.37319973, z: 0.012538087}
+  m_ConnectedAnchor: {x: -3.637979e-12, y: 0.37319973, z: 0.012538087}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -5633,8 +5630,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 893307364}
     - target: {fileID: 919132149097357755, guid: 350a71e81064a904099e63fb66b776c6, type: 3}
+      propertyPath: IncludeParent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149097357755, guid: 350a71e81064a904099e63fb66b776c6, type: 3}
+      propertyPath: SmoothingStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149097357755, guid: 350a71e81064a904099e63fb66b776c6, type: 3}
       propertyPath: UseMaxDistance
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149097357755, guid: 350a71e81064a904099e63fb66b776c6, type: 3}
+      propertyPath: MotionInfluence
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 919132149097357755, guid: 350a71e81064a904099e63fb66b776c6, type: 3}
       propertyPath: OptimizeWithMesh
@@ -5642,7 +5651,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149097357755, guid: 350a71e81064a904099e63fb66b776c6, type: 3}
       propertyPath: _Editor_Category
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149097357755, guid: 350a71e81064a904099e63fb66b776c6, type: 3}
       propertyPath: _Editor_FeaturesCategory
@@ -5714,15 +5723,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3344933497835121121, guid: 350a71e81064a904099e63fb66b776c6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3344933497835121121, guid: 350a71e81064a904099e63fb66b776c6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.8494799
+      value: -1.85
       objectReference: {fileID: 0}
     - target: {fileID: 3344933497835121121, guid: 350a71e81064a904099e63fb66b776c6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.30022737
+      value: 0.27
       objectReference: {fileID: 0}
     - target: {fileID: 3344933497835121121, guid: 350a71e81064a904099e63fb66b776c6, type: 3}
       propertyPath: m_LocalRotation.w

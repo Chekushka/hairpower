@@ -7,15 +7,11 @@ namespace Character
     public class CharacterMovement : MonoBehaviour
     {
         [SerializeField] private float forwardMovementSpeed = 1.5f;
-        [SerializeField] private float runSpeed = 2;
         [SerializeField] private float sideMovementSpeed = 3f;
-        [SerializeField] private float timeWhenRunEnables = 3f;
         [SerializeField] private GameObject hairEnd;
         [SerializeField] private GameObject failWindow;
 
         [Header("Ragdoll")] [SerializeField] private Transform hips;
-
-        [Header("Debug")] [SerializeField] private bool isAbleToSpin;
 
         public bool isSideAttack;
         public bool isMoving;
@@ -30,10 +26,9 @@ namespace Character
         private TailAnimator2 _hairTailAnimator;
         private FinishHairShooting _finishHairShooting;
         private Camera _camera;
-
-        private bool _isWaitingForRun = true;
-        private bool _isRunning;
+        
         private bool _isFinish;
+        private bool _isAbleToSpin;
 
         private const float PlatformBorderDistance = 1.9f;
 
@@ -66,35 +61,21 @@ namespace Character
             }
         }
 
+        public void SetAbleToSpin() => _isAbleToSpin = true;
+
         public void SetFinish()
         {
             DisableAllMovement(false);
             _isFinish = true;
         }
 
-        public void SetTimeWhenRunEnables(float time) => timeWhenRunEnables = time;
-
         public void DisableAllMovement(bool isBeforeAttack)
         {
-            CancelInvoke(nameof(SetRun));
-            _isWaitingForRun = true;
             if (!isBeforeAttack)
-            {
                 _animating.SetIdle();
-                _animating.SetRunning(false);
-            }
 
             isMoving = false;
-            _isRunning = false;
             _footstepsSoundPlaying.isWalking = false;
-        }
-
-        public void DisableRunning() => _isRunning = false;
-
-        public void RestartMovement()
-        {
-            CancelInvoke(nameof(SetRun));
-            _isWaitingForRun = true;
         }
 
         public void EnableRagDoll(bool value, bool addForce)
@@ -123,12 +104,10 @@ namespace Character
         {
             if (!_jumping.isReadyToJump && !_isFinish && !_jumping.IsJumping())
             {
-                if (_isRunning)
+                if (_isAbleToSpin)
                 {
-                    if (isAbleToSpin)
-                        _attack.StartDelayedSpinAttack();
-                    else
-                        DisableAllMovement(false);
+                    _attack.StartDelayedSpinAttack();
+                    _isAbleToSpin = false;
                 }
                 else
                     _attack.StartDelayedAttack();
@@ -145,17 +124,7 @@ namespace Character
         private void MoveForward()
         {
             if (_isFinish) return;
-
-            if (_isWaitingForRun)
-            {
-                Invoke(nameof(SetRun), timeWhenRunEnables);
-                _isWaitingForRun = false;
-            }
-
-            if (_isRunning)
-                transform.position += Vector3.forward * runSpeed * Time.deltaTime;
-            else
-                transform.position += Vector3.forward * forwardMovementSpeed * Time.deltaTime;
+            transform.position += Vector3.forward * forwardMovementSpeed * Time.deltaTime;
         }
 
         private void SideMove(Vector2 touchPosition)
@@ -182,15 +151,8 @@ namespace Character
             transform.rotation = Quaternion.identity;
             isMoving = true;
             _animating.SetMoving();
-            _footstepsSoundPlaying.SetSoundDelayToWalking();
-            _footstepsSoundPlaying.isWalking = true;
-        }
-
-        private void SetRun()
-        {
-            _isRunning = true;
-            _animating.SetRunning(true);
             _footstepsSoundPlaying.SetSoundDelayToRunning();
+            _footstepsSoundPlaying.isWalking = true;
         }
     }
 }

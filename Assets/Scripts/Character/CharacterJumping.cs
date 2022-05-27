@@ -40,7 +40,6 @@ namespace Character
             _footstepsSoundPlaying.isWalking = false;
             _animating.SetParkourJump();
             jumpStartSound.Play();
-            _movement.DisableRunning();
             StartCoroutine(SetJumping(0.3f));
             StartCoroutine(EndJump(parkourJumpTime));
         }
@@ -70,7 +69,6 @@ namespace Character
             _isJumping = false;
             jumpEndSound.Play();
             _footstepsSoundPlaying.isWalking = true;
-            _movement.RestartMovement();
         }
     }
 }

@@ -883,6 +883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onGrowParticles: {fileID: 6819483926044580998, guid: 11c3569514a2ac5409286f5c3eb98b93, type: 3}
+  chargedAttackPoints: 2
 --- !u!136 &7063893616135570538
 CapsuleCollider:
   m_ObjectHideFlags: 0
