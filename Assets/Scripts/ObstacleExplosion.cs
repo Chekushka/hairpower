@@ -9,7 +9,7 @@ public class ObstacleExplosion : MonoBehaviour
     [SerializeField] private ObstacleType type;
     [SerializeField] private GameObject obstacleObject;
     [SerializeField] private Collider triggerCollider;
-    [SerializeField] private Collider explosionWaveCollider;
+    [SerializeField] private GameObject explosionWave;
     [SerializeField] private List<Rigidbody> obstaclesParts;
     [SerializeField] private GrowItemBoxFalling growItem;
     [SerializeField] private ParticleSystem punchPrefab;
@@ -28,6 +28,7 @@ public class ObstacleExplosion : MonoBehaviour
 
     private float _lastYPos;
     private bool _isFalling;
+    private bool _isExploded;
 
     private void Start() => _lastYPos = transform.position.y;
 
@@ -43,7 +44,7 @@ public class ObstacleExplosion : MonoBehaviour
                             other.gameObject.CompareTag("Girl");
         var fallCondition = other.gameObject.layer == PlatformLayer && _isFalling 
                                                                     && !other.gameObject.CompareTag("Wall");
-        if (hitCondition || fallCondition)
+        if ((hitCondition || fallCondition) && !_isExploded)
         {
             obstacleObject.SetActive(false);
             triggerCollider.enabled = false;
@@ -56,8 +57,8 @@ public class ObstacleExplosion : MonoBehaviour
             }
             
             obstacleHitSound.Play();
-            Instantiate(punchPrefab, other.transform.position, Quaternion.Euler(0,180,0));
-            Instantiate(hitSmokePrefab, other.transform.position, Quaternion.identity);
+            Instantiate(punchPrefab, other.contacts[0].point, Quaternion.Euler(0,180,0));
+            Instantiate(hitSmokePrefab, other.contacts[0].point, Quaternion.identity);
             
             switch (type)
             {
@@ -78,6 +79,7 @@ public class ObstacleExplosion : MonoBehaviour
             }
 
             Explode(other.gameObject);
+            _isExploded = true;
         }
     }
 
@@ -108,11 +110,12 @@ public class ObstacleExplosion : MonoBehaviour
 
             var impulsePower = ExplodeImpulsePower;
             part.AddForce(direction * impulsePower, ForceMode.Impulse);
-            if (explosion != null)
-                Instantiate(explosion, transform.position, Quaternion.identity);
-
-            if (type == ObstacleType.Barrel)
-                explosionWaveCollider.gameObject.SetActive(true);
+        }
+        
+        if (type == ObstacleType.Barrel)
+        {
+            Instantiate(explosionWave, transform.position, Quaternion.identity);
+            Instantiate(explosion, transform.position, Quaternion.identity);
         }
     }
 }

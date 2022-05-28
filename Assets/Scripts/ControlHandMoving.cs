@@ -21,6 +21,12 @@ public class ControlHandMoving : MonoBehaviour
          MoveHand(_inputControls.GetFingerPos());
    }
 
+   public void DisableHands()
+   {
+      hand.SetActive(false);
+      handOnTap.SetActive(false);
+   }
+
    private void MoveHand(Vector2 fingerPos)
    {
       _currentHandTransform.position = fingerPos;
@@ -33,8 +39,7 @@ public class ControlHandMoving : MonoBehaviour
       handOnTap.SetActive(true);
       _currentHandTransform = handOnTap.transform;
    }
-
-  
+   
    private void DisableTapHand()
    {
       _isMovementGoing = false;

@@ -9,7 +9,7 @@ namespace Enemy
     {
         [SerializeField] private float movementSpeed;
         [SerializeField] private float distanceWhenPlayerBecomeVisible;
-        [SerializeField] private float girlHitPower = 15;
+        [SerializeField] private float girlHitPower = 5;
         [SerializeField] private float delayToGirlFall;
         [SerializeField] private bool isNeededForSideDirection;
         [SerializeField] private Vector3 sideDirection;
@@ -26,6 +26,8 @@ namespace Enemy
         private Collider _mainCollider;
         private bool _isPlayerVisible;
         private bool _isMoving;
+        private bool _isAlive;
+        private bool _isAlreadyHit;
 
         private const int GirlHairLayer = 8;
         private const int GirlLayer = 3;
@@ -44,7 +46,7 @@ namespace Enemy
 
         private void Update()
         {
-            if (_isPlayerVisible)
+            if (_isPlayerVisible && _isAlive)
             {
                 if(_isMoving)
                     MoveToPlayer();
@@ -62,25 +64,28 @@ namespace Enemy
             }
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision other)
         {
+            if(_isAlreadyHit) return;
             switch (other.gameObject.layer)
             {
                 case GirlHairLayer:
                     hitSound.Play();
                     _isMoving = false;
-                    Instantiate(onHitParticles, transform.position + Vector3.up, Quaternion.identity);
+                    Instantiate(onHitParticles, other.contacts[0].point, Quaternion.identity);
                     EnableRagDoll(true);
                     deathSound.Play();
+                    _isAlreadyHit = true;
                     break;
                 case ObstacleLayer:
                     if (other.gameObject.CompareTag("ExplosionWave"))
                     {
                         hitSound.Play();
                         _isMoving = false;
-                        Instantiate(onHitParticles, transform.position + Vector3.up, Quaternion.identity);
+                        Instantiate(onHitParticles, other.contacts[0].point, Quaternion.identity);
                         EnableRagDoll(true);
                         deathSound.Play();
+                        _isAlreadyHit = true;
                     }
                     break;
                 case GirlLayer:
@@ -88,6 +93,7 @@ namespace Enemy
                     _animating.SetAttack();
                     _girlMovement.DisableAllMovement(false);
                     StartCoroutine(DelayedGirlFall(delayToGirlFall));
+                    _isAlreadyHit = true;
                     break;
             }
         }
@@ -107,6 +113,7 @@ namespace Enemy
             }
 
             _mainCollider.enabled = !value;
+            _isAlive = !value;
             
             var rigidbodies = hips.GetComponentsInChildren<Rigidbody>();
             foreach (var rb in rigidbodies)
@@ -124,8 +131,6 @@ namespace Enemy
                 }
             }
         }
-        
-        private void MoveForward() => transform.position += Vector3.back * movementSpeed * Time.deltaTime;
 
         private void MoveToPlayer()
         {

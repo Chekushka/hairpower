@@ -18,7 +18,8 @@ namespace GrowItems
         {
             _collider.isTrigger = false;
             _rigidbody.isKinematic = false;
-            _rigidbody.AddForce(Vector3.down * 20, ForceMode.Impulse);
+            _rigidbody.useGravity = true;
+            transform.parent = null;
         }
 
         private void OnCollisionEnter(Collision other)
@@ -26,6 +27,7 @@ namespace GrowItems
             if(other.gameObject.layer != PlatformLayer) return;
             _collider.isTrigger = true;
             _rigidbody.isKinematic = true;
+            _rigidbody.useGravity = false;
         }
     }
 }

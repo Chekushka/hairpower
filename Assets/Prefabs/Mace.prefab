@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &790627423995633828
 Transform:
   m_ObjectHideFlags: 0
@@ -764,7 +764,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3070520045195232200
 Transform:
   m_ObjectHideFlags: 0
@@ -1300,24 +1300,19 @@ MonoBehaviour:
   _Editor_Category: 1
   _Editor_FeaturesCategory: 0
   DrawGizmos: 1
-  StartBone: {fileID: 0}
+  StartBone: {fileID: 790627423995633828}
   EndBone: {fileID: 0}
   EndBoneJointOffset: {x: 0, y: 0, z: 0}
   _TransformsGhostChain:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  _GhostChainInitCount: 13
+  - {fileID: 790627423995633828}
+  - {fileID: 8519600029708586031}
+  - {fileID: 7421159737431924714}
+  - {fileID: 8959613906789590922}
+  - {fileID: 8780482731541532470}
+  - {fileID: 3529064579910955291}
+  - {fileID: 5606049111793881215}
+  - {fileID: 618826641457560351}
+  _GhostChainInitCount: 8
   UpdateRate: 0
   AnimatePhysics: 0
   InterpolateRate: 0

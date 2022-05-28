@@ -23,8 +23,10 @@ namespace Character
         private TailAnimator2 _hairTailAnimator;
         private ChargedAttackBarFill _attackBar;
         private bool _isDefaultSpinAttackPerformed;
+        private float _hairDefaultAngleX;
+        private float _hairDefaultPosZ;
 
-        #region TailAnimatorConsts
+        #region Consts
 
         private const float HairSlitheryDefault = 1f;
         private const float HairSlitheryOnSpin = 0.4f;
@@ -35,7 +37,8 @@ namespace Character
         private const float HairCurlingOnAttack = 0.3f;
         private const float HairSpringinessOnDefault = 0.5f;
         private const float HairSpringinessOnAttack = 0.8f;
-        private const float HairDefaultAngleX = -17;
+        private const float HairLowerSpinAngleX = 10f;
+        private const float HairLowerSpinPosZ = -0.52f;
 
         #endregion
 
@@ -47,6 +50,8 @@ namespace Character
             _growing = GetComponent<HairGrowing>();
             _hairTailAnimator = GetComponentInChildren<TailAnimator2>();
             _attackBar = FindObjectOfType<ChargedAttackBarFill>();
+            _hairDefaultAngleX = _hairTailAnimator.transform.eulerAngles.x;
+            _hairDefaultPosZ = _hairTailAnimator.transform.localPosition.z;
         }
 
         public void StartDelayedAttack() => StartCoroutine(DelayedAttack());
@@ -84,15 +89,16 @@ namespace Character
                 _movement.isSideAttack = true;
                 StartCoroutine(DelayedHairSpin());
                 _isDefaultSpinAttackPerformed = false;
+                StartCoroutine(EndAttack(2f));
             }
             else
             {
                 _movement.DisableAllMovement(true);
-                StartCoroutine(DelayedHairRotationChange());
+                StartCoroutine(DelayedHairTransformChange());
                 _animating.SetLowerSpinAttack();
                 _isDefaultSpinAttackPerformed = true;
+                StartCoroutine(EndAttack(2.5f));
             }
-            StartCoroutine(EndAttack(2f));
             _attackBar.ClearBar();
         }
 
@@ -104,7 +110,10 @@ namespace Character
             _hairTailAnimator.Slithery = HairSlitheryDefault;
             _hairTailAnimator.AngleLimit = HairAngleLimitDefault;
             _hairTailAnimator.Springiness = HairSpringinessOnDefault;
-            _hairTailAnimator.transform.localRotation = Quaternion.Euler(HairDefaultAngleX ,0 ,0);
+            var hairTransform = _hairTailAnimator.transform;
+            hairTransform.localRotation = Quaternion.Euler(_hairDefaultAngleX ,0 ,0);
+            hairTransform.localPosition =
+                new Vector3(hairTransform.localPosition.x, hairTransform.localPosition.y, _hairDefaultPosZ);
             _movement.isSideAttack = false;
             StartCoroutine(DisableTrails());
         }
@@ -129,10 +138,13 @@ namespace Character
             _animating.HairSetSpinAttack();
         }
 
-        private IEnumerator DelayedHairRotationChange()
+        private IEnumerator DelayedHairTransformChange()
         {
             yield return new WaitForSeconds(0.2f);
-            _hairTailAnimator.transform.localRotation = Quaternion.Euler(10 ,0 ,0);
+            var hairTransform = _hairTailAnimator.transform;
+            hairTransform.localRotation = Quaternion.Euler(HairLowerSpinAngleX ,0 ,0);
+            hairTransform.localPosition = new Vector3(hairTransform.localPosition.x,
+                hairTransform.localPosition.y, HairLowerSpinPosZ);
         }
 
         private IEnumerator DelayedHairAttack()
