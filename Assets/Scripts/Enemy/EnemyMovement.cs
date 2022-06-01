@@ -109,7 +109,8 @@ namespace Enemy
             if (value)
             {
                 _animating.DisableAnimator();
-                _enemyLocating.RemoveObjectFromEnemies(gameObject);
+                if(_enemyLocating != null)
+                    _enemyLocating.RemoveObjectFromEnemies(gameObject);
             }
 
             _mainCollider.enabled = !value;
