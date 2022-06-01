@@ -11,17 +11,20 @@ public class InputControls : MonoBehaviour
     public static event Tap OnTap;
 
     private InputPrefs _inputPrefs;
-    private void Awake() => _inputPrefs = new InputPrefs();
+
+    private void Awake()
+    {
+        _inputPrefs = new InputPrefs();
+        _inputPrefs.Enable();
+    }
 
     private void Start()
     {
         _inputPrefs.Touch.ForwardMoveStarted.performed += x => OnHoldForwardStarted?.Invoke();
         _inputPrefs.Touch.ForwardMoveEnded.performed += x => OnHoldForwardEnded?.Invoke();
-        _inputPrefs.Touch.Attack.performed += x => OnTap?.Invoke();
+        _inputPrefs.Touch.Tap.performed += x => OnTap?.Invoke();
     }
 
     public Vector2 GetFingerPos() => _inputPrefs.Touch.TouchPosition.ReadValue<Vector2>();
-
-    private void OnEnable() =>_inputPrefs.Enable();
     private void OnDisable()=>_inputPrefs.Disable();
 }

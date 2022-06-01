@@ -28,7 +28,7 @@ public partial class @InputPrefs : IInputActionCollection2, IDisposable
             ""id"": ""8768805d-c805-4e0e-a79a-68c79fe52d4f"",
             ""actions"": [
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""Tap"",
                     ""type"": ""Button"",
                     ""id"": ""feacffe8-d038-4e17-be42-2abdde34cd10"",
                     ""expectedControlType"": ""Button"",
@@ -90,18 +90,18 @@ public partial class @InputPrefs : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a00bcbf3-1e08-4f4d-8d22-eefce68c4a10"",
-                    ""path"": ""<Touchscreen>/primaryTouch/press"",
+                    ""path"": ""<Touchscreen>/Press"",
                     ""interactions"": ""Tap"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack"",
+                    ""action"": ""Tap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""e047d96c-f73e-4cda-bace-f29118df0010"",
-                    ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""path"": ""<Touchscreen>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -116,7 +116,7 @@ public partial class @InputPrefs : IInputActionCollection2, IDisposable
 }");
         // Touch
         m_Touch = asset.FindActionMap("Touch", throwIfNotFound: true);
-        m_Touch_Attack = m_Touch.FindAction("Attack", throwIfNotFound: true);
+        m_Touch_Tap = m_Touch.FindAction("Tap", throwIfNotFound: true);
         m_Touch_ForwardMoveStarted = m_Touch.FindAction("ForwardMoveStarted", throwIfNotFound: true);
         m_Touch_ForwardMoveEnded = m_Touch.FindAction("ForwardMoveEnded", throwIfNotFound: true);
         m_Touch_TouchPosition = m_Touch.FindAction("TouchPosition", throwIfNotFound: true);
@@ -179,7 +179,7 @@ public partial class @InputPrefs : IInputActionCollection2, IDisposable
     // Touch
     private readonly InputActionMap m_Touch;
     private ITouchActions m_TouchActionsCallbackInterface;
-    private readonly InputAction m_Touch_Attack;
+    private readonly InputAction m_Touch_Tap;
     private readonly InputAction m_Touch_ForwardMoveStarted;
     private readonly InputAction m_Touch_ForwardMoveEnded;
     private readonly InputAction m_Touch_TouchPosition;
@@ -187,7 +187,7 @@ public partial class @InputPrefs : IInputActionCollection2, IDisposable
     {
         private @InputPrefs m_Wrapper;
         public TouchActions(@InputPrefs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Attack => m_Wrapper.m_Touch_Attack;
+        public InputAction @Tap => m_Wrapper.m_Touch_Tap;
         public InputAction @ForwardMoveStarted => m_Wrapper.m_Touch_ForwardMoveStarted;
         public InputAction @ForwardMoveEnded => m_Wrapper.m_Touch_ForwardMoveEnded;
         public InputAction @TouchPosition => m_Wrapper.m_Touch_TouchPosition;
@@ -200,9 +200,9 @@ public partial class @InputPrefs : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_TouchActionsCallbackInterface != null)
             {
-                @Attack.started -= m_Wrapper.m_TouchActionsCallbackInterface.OnAttack;
-                @Attack.performed -= m_Wrapper.m_TouchActionsCallbackInterface.OnAttack;
-                @Attack.canceled -= m_Wrapper.m_TouchActionsCallbackInterface.OnAttack;
+                @Tap.started -= m_Wrapper.m_TouchActionsCallbackInterface.OnTap;
+                @Tap.performed -= m_Wrapper.m_TouchActionsCallbackInterface.OnTap;
+                @Tap.canceled -= m_Wrapper.m_TouchActionsCallbackInterface.OnTap;
                 @ForwardMoveStarted.started -= m_Wrapper.m_TouchActionsCallbackInterface.OnForwardMoveStarted;
                 @ForwardMoveStarted.performed -= m_Wrapper.m_TouchActionsCallbackInterface.OnForwardMoveStarted;
                 @ForwardMoveStarted.canceled -= m_Wrapper.m_TouchActionsCallbackInterface.OnForwardMoveStarted;
@@ -216,9 +216,9 @@ public partial class @InputPrefs : IInputActionCollection2, IDisposable
             m_Wrapper.m_TouchActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Attack.started += instance.OnAttack;
-                @Attack.performed += instance.OnAttack;
-                @Attack.canceled += instance.OnAttack;
+                @Tap.started += instance.OnTap;
+                @Tap.performed += instance.OnTap;
+                @Tap.canceled += instance.OnTap;
                 @ForwardMoveStarted.started += instance.OnForwardMoveStarted;
                 @ForwardMoveStarted.performed += instance.OnForwardMoveStarted;
                 @ForwardMoveStarted.canceled += instance.OnForwardMoveStarted;
@@ -234,7 +234,7 @@ public partial class @InputPrefs : IInputActionCollection2, IDisposable
     public TouchActions @Touch => new TouchActions(this);
     public interface ITouchActions
     {
-        void OnAttack(InputAction.CallbackContext context);
+        void OnTap(InputAction.CallbackContext context);
         void OnForwardMoveStarted(InputAction.CallbackContext context);
         void OnForwardMoveEnded(InputAction.CallbackContext context);
         void OnTouchPosition(InputAction.CallbackContext context);

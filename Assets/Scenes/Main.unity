@@ -2638,11 +2638,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1071484440, guid: a0ab4c720fc74794fa01ca4369540692, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.0000000307311
+      value: 0.000000030731098
       objectReference: {fileID: 0}
     - target: {fileID: 1071484440, guid: a0ab4c720fc74794fa01ca4369540692, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000015486698
+      value: -0.000000015486696
       objectReference: {fileID: 0}
     - target: {fileID: 1071484441, guid: a0ab4c720fc74794fa01ca4369540692, type: 3}
       propertyPath: m_Follow
@@ -7684,6 +7684,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CLIK
       objectReference: {fileID: 0}
+    - target: {fileID: 1896376353714711851, guid: f10455e4fbce6c94e86ec2adc1293c3d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f10455e4fbce6c94e86ec2adc1293c3d, type: 3}
 --- !u!1 &1969792227
@@ -7966,7 +7970,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2821668381292120504, guid: 9cda80bb4ba7a654aa98d59c811331c2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -95.36023
+      value: -95.36035
       objectReference: {fileID: 0}
     - target: {fileID: 2821668381292120504, guid: 9cda80bb4ba7a654aa98d59c811331c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -8569,6 +8573,10 @@ PrefabInstance:
     - target: {fileID: 2002057603087476094, guid: 2dc6db3b14601764e8542347a739d311, type: 3}
       propertyPath: m_Name
       value: HandCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002057603087476094, guid: 2dc6db3b14601764e8542347a739d311, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2dc6db3b14601764e8542347a739d311, type: 3}
