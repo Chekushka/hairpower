@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,15 +15,13 @@ namespace Character
 
         public bool isReadyToJump;
         private bool _isJumping;
-
-        private CharacterMovement _movement;
+        
         private CharacterAnimating _animating;
         private CharacterFootstepsSoundPlaying _footstepsSoundPlaying;
 
         private void Start()
         {
             _animating = GetComponent<CharacterAnimating>();
-            _movement = GetComponent<CharacterMovement>();
             _footstepsSoundPlaying = GetComponent<CharacterFootstepsSoundPlaying>();
             InputControls.OnTap += StartJump;
         }
@@ -32,6 +31,8 @@ namespace Character
             if(_isJumping)
                 transform.position += Vector3.forward * jumpingSpeed * Time.deltaTime;
         }
+
+        private void OnDisable() => InputControls.OnTap -= StartJump;
 
         public bool IsJumping() => _isJumping;
 

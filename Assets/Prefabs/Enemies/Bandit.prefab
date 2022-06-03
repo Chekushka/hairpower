@@ -2369,7 +2369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6662112557573563150}
   - component: {fileID: 3848363821337141994}
-  - component: {fileID: 3848363821337141995}
+  - component: {fileID: 1341362763683875802}
   m_Layer: 10
   m_Name: pelvis
   m_TagString: Untagged
@@ -2410,8 +2410,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &3848363821337141995
-BoxCollider:
+--- !u!136 &1341362763683875802
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2420,9 +2420,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.41938895, y: 0.33359766, z: 0.35400397}
-  m_Center: {x: -0.3177827, y: 0.02486605, z: -0.00000014900004}
+  m_Radius: 0.15358904
+  m_Height: 0.5479823
+  m_Direction: 0
+  m_Center: {x: -0.31694454, y: 0.016410947, z: 7.640225e-12}
 --- !u!1 &5177114480900618430
 GameObject:
   m_ObjectHideFlags: 0
@@ -2970,8 +2971,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7358590547998321982}
   - component: {fileID: 2389892233637508631}
-  - component: {fileID: 2389892233637508633}
   - component: {fileID: 2389892233637508632}
+  - component: {fileID: 3161020434392331613}
   m_Layer: 10
   m_Name: spine_01
   m_TagString: Untagged
@@ -3010,19 +3011,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &2389892233637508633
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5947355563905178037}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.122021124, y: 0.32671311, z: 0.35400397}
-  m_Center: {x: 0.061010774, y: 0.036346752, z: -0.0000001600023}
 --- !u!144 &2389892233637508632
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -3069,6 +3057,20 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!136 &3161020434392331613
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5947355563905178037}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.103055075
+  m_Height: 0.4077369
+  m_Direction: 2
+  m_Center: {x: 0.05694489, y: -0.0000000032735483, z: -0.000792931}
 --- !u!1 &5949653596267450254
 GameObject:
   m_ObjectHideFlags: 0

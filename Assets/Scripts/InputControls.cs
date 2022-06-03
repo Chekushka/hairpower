@@ -12,10 +12,16 @@ public class InputControls : MonoBehaviour
 
     private InputPrefs _inputPrefs;
 
+    public static InputControls Instance { get; private set; }
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+        if (Instance != null && Instance != this)
+            Destroy(gameObject);
+        else
+            Instance = this;
+        
         _inputPrefs = new InputPrefs();
-        _inputPrefs.Enable();
     }
 
     private void Start()
@@ -26,5 +32,8 @@ public class InputControls : MonoBehaviour
     }
 
     public Vector2 GetFingerPos() => _inputPrefs.Touch.TouchPosition.ReadValue<Vector2>();
-    private void OnDisable()=>_inputPrefs.Disable();
+
+    private void OnEnable() => _inputPrefs.Enable();
+
+    private void OnDisable() => _inputPrefs.Disable();
 }

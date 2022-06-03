@@ -131,6 +131,7 @@ namespace Enemy
                         rb.AddForce((Vector3.forward) * girlHitPower, ForceMode.Impulse);
                 }
             }
+            GetComponent<Rigidbody>().isKinematic = value;
         }
 
         private void MoveToPlayer()

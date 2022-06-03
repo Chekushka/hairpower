@@ -6,13 +6,19 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main.unity
+    path: Assets/Scenes/LoadScene.unity
+    guid: 3a61558f9b06b8643a87b9f0f0062bad
+  - enabled: 1
+    path: Assets/Scenes/Level1(Blue).unity
     guid: 213b7ad91afd39841ae374d5da38cc3e
   - enabled: 1
-    path: Assets/Scenes/GreenScene.unity
+    path: Assets/Scenes/Level2(Green).unity
     guid: 58912b89db936b84ba5a6368dd0107c9
   - enabled: 1
-    path: Assets/Scenes/PinkScene.unity
+    path: Assets/Scenes/Level3(Pink).unity
     guid: 32eab08584d5b96499de589ca8b9aa4b
+  - enabled: 1
+    path: Assets/Scenes/Level4(Water).unity
+    guid: 4af095e4014c079409131b1c0e8beba3
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 911c68d8c5543064aa678a5df4b31dd6, type: 2}

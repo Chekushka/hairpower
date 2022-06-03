@@ -1,4 +1,6 @@
+using System;
 using FIMSpace.FTail;
+using TMPro;
 using UnityEngine;
 
 namespace Character
@@ -10,6 +12,7 @@ namespace Character
         [SerializeField] private float sideMovementSpeed = 3f;
         [SerializeField] private GameObject hairEnd;
         [SerializeField] private GameObject failWindow;
+        [SerializeField] private TextMeshProUGUI debugText;
 
         [Header("Ragdoll")] [SerializeField] private Transform hips;
 
@@ -29,6 +32,7 @@ namespace Character
         
         private bool _isFinish;
         private bool _isAbleToSpin;
+        private bool _isFail;
 
         private const float PlatformBorderDistance = 1.9f;
 
@@ -53,12 +57,19 @@ namespace Character
 
         private void FixedUpdate()
         {
-            if (isMoving && !_jumping.IsJumping() && !_isFinish)
+            if (isMoving && !_jumping.IsJumping() && !_isFinish && !_isFail)
             {
                 MoveForward();
                 SideMove(_inputControls.GetFingerPos());
                 CheckBorder();
+                //debugText.text = _inputControls.GetFingerPos().x + ", " + _inputControls.GetFingerPos().y;
             }
+        }
+
+        private void OnDisable()
+        {
+            InputControls.OnHoldForwardStarted -= SetMoving;
+            InputControls.OnHoldForwardEnded -= EndMoving;
         }
 
         public void SetAbleToSpin() => _isAbleToSpin = true;
@@ -83,6 +94,7 @@ namespace Character
             if (value)
             {
                 failWindow.SetActive(true);
+                _isFail = true;
                 _animating.DisableCharacterAnimator();
                 _hairTailAnimator.Gravity = Vector3.down * 9;
             }

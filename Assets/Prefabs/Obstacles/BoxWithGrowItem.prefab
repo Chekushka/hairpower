@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 524090574152696793}
   m_LocalRotation: {x: 0, y: 0.3456913, z: 0, w: 0.93834835}
-  m_LocalPosition: {x: 15.557709, y: 24.842, z: -74.80354}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 58345466997874574}
@@ -52,7 +52,7 @@ MonoBehaviour:
   type: 2
   obstacleObject: {fileID: 829955667289294132}
   triggerCollider: {fileID: 8471037693923878176}
-  explosionWaveCollider: {fileID: 0}
+  explosionWave: {fileID: 0}
   obstaclesParts:
   - {fileID: 2257123610350891662}
   - {fileID: 3293806978848731818}

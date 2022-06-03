@@ -92,5 +92,6 @@ public class FinishHairShooting : MonoBehaviour
         hairObjectCollider.center = Vector3.up * 1.6f;
         hairTailAnimator.gameObject.AddComponent(typeof(Rigidbody));
         levelComplete.SetActive(true);
+        LevelSaving.Instance.SetNextLevelToLastSaved();
     }
 }

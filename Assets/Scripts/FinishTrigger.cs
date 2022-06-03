@@ -15,7 +15,8 @@ public class FinishTrigger : MonoBehaviour
         FindObjectOfType<CameraChanging>().ChangeCamera(CameraType.Finish);
         finishCanvasWindow.SetActive(true);
         finishSound.Play();
-        
+       
+
         if(other.gameObject.CompareTag("Girl"))
             other.GetComponent<CharacterMovement>().SetFinish();
         else
