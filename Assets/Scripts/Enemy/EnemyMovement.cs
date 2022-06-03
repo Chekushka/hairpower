@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Character;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace Enemy
         [SerializeField] private bool isNeededForSideDirection;
         [SerializeField] private Vector3 sideDirection;
         [SerializeField] private Transform hips;
+        [SerializeField] private List<Collider> bodyColliders;
         [SerializeField] private ParticleSystem onHitParticles;
         [SerializeField] private AudioSource hitSound;
         [SerializeField] private AudioSource attackSound;
@@ -40,7 +42,7 @@ namespace Enemy
             _girlMovement = FindObjectOfType<CharacterMovement>();
             _enemyLocating = FindObjectOfType<CloseEnemyLocating>();
             _girlTransform = _girlMovement.transform;
-            
+
             EnableRagDoll(false);
         }
 
@@ -48,25 +50,23 @@ namespace Enemy
         {
             if (_isPlayerVisible && _isAlive)
             {
-                if(_isMoving)
+                if (_isMoving)
                     MoveToPlayer();
             }
             else
             {
-                if (Vector3.Distance(transform.position, _girlTransform.position) < distanceWhenPlayerBecomeVisible 
-                && !_isPlayerVisible)
+                if (Vector3.Distance(transform.position, _girlTransform.position) < distanceWhenPlayerBecomeVisible
+                    && !_isPlayerVisible)
                 {
                     _isPlayerVisible = true;
                     EnableMovement();
                 }
-                
-                // MoveForward();
             }
         }
 
         private void OnCollisionEnter(Collision other)
         {
-            if(_isAlreadyHit) return;
+            if (_isAlreadyHit) return;
             switch (other.gameObject.layer)
             {
                 case GirlHairLayer:
@@ -87,6 +87,7 @@ namespace Enemy
                         deathSound.Play();
                         _isAlreadyHit = true;
                     }
+
                     break;
                 case GirlLayer:
                     _isMoving = false;
@@ -109,13 +110,14 @@ namespace Enemy
             if (value)
             {
                 _animating.DisableAnimator();
-                if(_enemyLocating != null)
+                if (_enemyLocating != null)
                     _enemyLocating.RemoveObjectFromEnemies(gameObject);
             }
 
             _mainCollider.enabled = !value;
             _isAlive = !value;
-            
+
+            EnableBodyColliders();
             var rigidbodies = hips.GetComponentsInChildren<Rigidbody>();
             foreach (var rb in rigidbodies)
             {
@@ -125,12 +127,13 @@ namespace Enemy
                     rb.AddForce((Vector3.forward + sideDirection) * girlHitPower, ForceMode.Impulse);
                 else
                 {
-                    if(_girlMovement.isSideAttack)  
+                    if (_girlMovement.isSideAttack)
                         rb.AddForce((Vector3.forward + Vector3.left) * 10, ForceMode.Impulse);
                     else
                         rb.AddForce((Vector3.forward) * girlHitPower, ForceMode.Impulse);
                 }
             }
+
             GetComponent<Rigidbody>().isKinematic = value;
         }
 
@@ -139,6 +142,12 @@ namespace Enemy
             transform.position = Vector3.MoveTowards(transform.position,
                 _girlTransform.position, movementSpeed * Time.deltaTime);
             transform.LookAt(_girlTransform);
+        }
+
+        private void EnableBodyColliders()
+        {
+            foreach (var bodyCollider in bodyColliders)
+                bodyCollider.enabled = true;
         }
 
         private IEnumerator DelayedGirlFall(float delay)
